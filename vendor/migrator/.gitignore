@@ -1,0 +1,4 @@
+.DS_Store
+*.fasl
+/.clm/
+t/test.sqlite3
