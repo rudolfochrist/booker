@@ -5,14 +5,16 @@
 ;;; file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 (defpackage #:migrator/test
-  (:use :cl :1am))
+  (:use :cl :1am)
+  (:local-nicknames
+   (#:v :org.shirakumo.verbose)))
 
 (in-package #:migrator/test)
 
 (defvar *tests* nil)
 
 (defmacro deftest (name &body body)
-  `(progn
+  `(eval-when (:compile-toplevel :load-toplevel :execute)
      (test ,name
        ,@body)
      (pushnew ',name *tests*)
