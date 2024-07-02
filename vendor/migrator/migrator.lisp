@@ -12,6 +12,8 @@
                 #:execute-to-list
                 #:with-transaction
                 #:execute-single)
+  (:local-nicknames
+   (#:v :org.shirakumo.verbose))
   (:export
    #:migrate))
 

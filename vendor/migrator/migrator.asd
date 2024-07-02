@@ -33,7 +33,8 @@
   :description "Tests for migrator"
   :depends-on ((:require "uiop")
                "1am"
-               "migrator")
+               "migrator"
+               "verbose")
   :pathname "t/"
   :components ((:file "tests"))
   :perform (test-op (op c)
