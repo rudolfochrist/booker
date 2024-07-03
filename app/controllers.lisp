@@ -43,8 +43,16 @@
 
 (ht:define-easy-handler (bookmarks-create :uri (match :post "/bookmarks"))
     ()
-  (booker/db:create-bookmark (params :title) (params :url) "")
-  (redirect "/bookmarks"))
+  (cond
+    ((string= "application/json" (ht:header-in* "Content-Type"))
+     (let ((data (jzon:parse (ht:raw-post-data))))
+       (booker/db:create-bookmark (gethash "title" data)
+                                  (gethash "url" data)
+                                  (gethash "body" data))
+       "{ \"status\": \"OK\"}"))
+    (t
+     (booker/db:create-bookmark (params :title) (params :url))
+     (redirect "/bookmarks"))))
 
 (ht:define-easy-handler (bookmarks-edit :uri (match :get "/bookmarks/:id/edit"))
     ()

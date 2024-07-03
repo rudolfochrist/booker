@@ -72,7 +72,7 @@
                        (string (parse-integer id))
                        (otherwise id)))))))
 
-(defun create-bookmark (title url body)
+(defun create-bookmark (title url &optional body)
   (let ((id (generate-db-id)))
     (q (:operation datafly:execute)
       (insert-into :bookmarks

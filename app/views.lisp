@@ -9,8 +9,7 @@
      (:!doctype)
      (:html
       (:head
-       (:title ,title)
-       (:link :rel "stylesheet" :type "text/css" :href "/application.css"))
+       (:title ,title))
       (:body
        (:h2 (:a :href "/bookmarks" "Booker"))
        ,@body))))
