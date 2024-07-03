@@ -11,8 +11,30 @@
   :bug-tracker "https://github.com/rudolfochrist/booker/issues"
   :source-control (:git "https://github.com/rudolfochrist/booker.git")
   :version (:read-file-line "version")
-  :depends-on ((:require "uiop"))
-  :components ()
+  :depends-on ((:require "uiop")
+               "alexandria"
+               "hunchentoot"
+               "spinneret"
+               "cl-dbi"
+               "datafly"
+               "anypool"
+               "cl-migratum"
+               "cl-migratum.provider.local-path"
+               "cl-migratum.driver.dbi"
+               "ironclad"
+               "myway"
+               "hunchentoot-errors"
+               "com.inuoe.jzon")
+  :components ((:file "package")
+               (:module "lib"
+                :components ((:file "config")
+                             (:file "hunchentoot-ext")
+                             (:file "db")
+                             (:file "routing")
+                             (:file "server")))
+               (:module "app"
+                :components ((:file "views")
+                             (:file "controllers"))))
   :description "A bookmark managing application."
   :long-description
   #.(uiop:read-file-string

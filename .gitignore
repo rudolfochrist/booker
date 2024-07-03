@@ -1,3 +1,5 @@
 .DS_Store
 *.fasl
 *.key
+/config/
+/db/data.db
