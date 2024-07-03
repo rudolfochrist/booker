@@ -15,6 +15,10 @@
      (with-page (:title "Heartbeat")
        (:p "Site is running...")))))
 
+(ht:define-easy-handler (home :uri "/")
+    ()
+  (bookmarks-index))
+
 (ht:define-easy-handler (bookmarks-index :uri (match :get "/bookmarks"))
     ()
   (let ((bookmarks (booker/db:all-bookmarks)))
@@ -39,7 +43,7 @@
 
 (ht:define-easy-handler (bookmarks-create :uri (match :post "/bookmarks"))
     ()
-  (booker/db:save-bookmark (params :title) (params :url) "")
+  (booker/db:create-bookmark (params :title) (params :url) "")
   (redirect "/bookmarks"))
 
 (ht:define-easy-handler (bookmarks-edit :uri (match :get "/bookmarks/:id/edit"))

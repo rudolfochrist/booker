@@ -29,11 +29,11 @@
                (:module "lib"
                 :components ((:file "config")
                              (:file "hunchentoot-ext")
-                             (:file "db")
                              (:file "routing")
                              (:file "server")))
                (:module "app"
-                :components ((:file "views")
+                :components ((:file "db")
+                             (:file "views")
                              (:file "controllers"))))
   :description "A bookmark managing application."
   :long-description

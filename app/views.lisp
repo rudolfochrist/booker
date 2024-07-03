@@ -28,4 +28,4 @@
             (:input :type "text" :name "title" :autofocus t :value (getf ,bookmark :title ""))
             (:label :for "url" "URL:")
             (:input :type "url" :name "url" :value (getf ,bookmark :url ""))
-            (:input :type "submit"))))
+            (:input :type "submit" :value "Save"))))

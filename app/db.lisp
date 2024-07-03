@@ -9,10 +9,10 @@
    #:create-migration
    #:all-bookmarks
    #:generate-db-id
-   #:save-bookmark
    #:find-bookmark
    #:update-bookmark
-   #:delete-bookmark))
+   #:delete-bookmark
+   #:create-bookmark))
 
 (in-package #:booker/db)
 
