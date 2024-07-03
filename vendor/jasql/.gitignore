@@ -1,4 +1,0 @@
-*.fasl
-/.DS_Store
-/doc/include/*.texinfo
-/systems/

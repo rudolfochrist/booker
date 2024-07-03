@@ -1,6 +1,0 @@
-.DS_Store
-*.fasl
-/.clm/
-t/test.sqlite3
-/systems/
-/test.db
