@@ -24,7 +24,10 @@
                "ironclad"
                "myway"
                "hunchentoot-errors"
-               "com.inuoe.jzon")
+               "com.inuoe.jzon"
+               "plump"
+               "dexador"
+               "access")
   :components ((:file "package")
                (:module "lib"
                 :components ((:file "config")

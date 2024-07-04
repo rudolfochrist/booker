@@ -13,18 +13,3 @@
       (:body
        (:h2 (:a :href "/bookmarks" "Booker"))
        ,@body))))
-
-
-(defmacro bookmark-form (bookmark &key method action)
-  `(spinneret:with-html
-     (:form :method ,(if (member method (list :post :put :patch :delete))
-                         :post
-                         :get)
-            :action ,action
-            ,@(when (member method (list :put :patch :delete))
-                `((:input :type "hidden" :name "_method" :value ,method)))
-            (:label :for "title" "Title:")
-            (:input :type "text" :name "title" :autofocus t :value (getf ,bookmark :title ""))
-            (:label :for "url" "URL:")
-            (:input :type "url" :name "url" :value (getf ,bookmark :url ""))
-            (:input :type "submit" :value "Save"))))

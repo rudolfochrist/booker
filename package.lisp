@@ -7,6 +7,8 @@
   (:local-nicknames
    (#:ht :hunchentoot)
    (#:jzon :com.inuoe.jzon))
+  (:import-from :access
+                #:access)
   (:export
    #:root
    #:initialize-application

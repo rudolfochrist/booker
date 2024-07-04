@@ -12,7 +12,8 @@
    #:find-bookmark
    #:update-bookmark
    #:delete-bookmark
-   #:create-bookmark))
+   #:create-bookmark
+   #:search-bookmarks))
 
 (in-package #:booker/db)
 
@@ -71,6 +72,11 @@
       (where (:= :id (typecase id
                        (string (parse-integer id))
                        (otherwise id)))))))
+
+(defun search-bookmarks (st)
+  (anypool:with-connection (conn *dbi-pool*)
+    (let ((query (dbi:prepare conn "SELECT id, url, title FROM bookmarks WHERE bookmarks MATCH ?")))
+      (dbi:fetch-all (dbi:execute query (list st))))))
 
 (defun create-bookmark (title url &optional body)
   (let ((id (generate-db-id)))

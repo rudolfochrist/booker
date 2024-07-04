@@ -19,55 +19,57 @@
     ()
   (bookmarks-index))
 
+(defun apply-search-filter (search-term)
+  (if (and (not (null search-term))
+           (not (zerop (length search-term))))
+      (booker/db:search-bookmarks search-term)
+      (booker/db:all-bookmarks)))
+
 (ht:define-easy-handler (bookmarks-index :uri (match :get "/bookmarks"))
     ()
-  (let ((bookmarks (booker/db:all-bookmarks)))
+  (let ((bookmarks (apply-search-filter (params :q))))
     (with-page (:title "Bookmarks")
-      (:a :href "/bookmarks/new" (:button "New bookmark"))
+      (:div
+       (:form :method :post :action "/bookmarks"
+              (:input :type "url" :name "url")
+              (:input :type "submit" :value "Add Bookmark")))
+      (:div
+       (:form :method :get :action "/bookmarks"
+              (:input :type "text" :name "q")
+              (:input :type "submit" :value "Search")
+              (:a :href "/bookmarks") (:button "Reset")))
       (if (null bookmarks)
           (:p "No bookmarks")
           (:ul
            (loop for bookmark in bookmarks
-                 do (:li (:div (:a :href (getf bookmark :url)
-                                   (getf bookmark :title)))
-                         (:div (:a :href (format nil "/bookmarks/~D/edit" (getf bookmark :id)) "Edit")
-                               (:form :method :post :action (format nil "/bookmarks/~D" (getf bookmark :id))
+                 do (:li (:div (:a :href (access bookmark :url)
+                                   (access bookmark :title)))
+                         (:div (:form :method :post :action (format nil "/bookmarks/~D" (access bookmark :id))
+                                      :onsubmit "return confirm('Are you sure?');"
                                       (:input :type "hidden" :name "_method" :value "delete")
                                       (:input :type "submit" :class "submit-link" :value "Delete"))))))))))
 
-(ht:define-easy-handler (bookmarks-new :uri (match :get "/bookmarks/new"))
-    ()
-  (with-page (:title "New bookmark")
-    (:h1 "New bookmark")
-    (bookmark-form nil :method :post :action "/bookmarks")))
+(defun retrieve-bookmark-content (url)
+  (let* ((html (dexador:get url))
+         (dom (plump:parse html))
+         (main (or (first (plump:get-elements-by-tag-name dom "main"))
+                   (first (plump:get-elements-by-tag-name dom "body")))))
+    (dolist (script (plump:get-elements-by-tag-name main "script"))
+      (plump:remove-child script))
+    (dolist (style (plump:get-elements-by-tag-name main "style"))
+      (plump:remove-child style))
+    (dolist (iframe (plump:get-elements-by-tag-name main "iframe"))
+      (plump:remove-child iframe))
+    (values (plump:render-text (first (plump:get-elements-by-tag-name dom "title")))
+            (plump:render-text main))))
 
 (ht:define-easy-handler (bookmarks-create :uri (match :post "/bookmarks"))
     ()
-  (cond
-    ((string= "application/json" (ht:header-in* "Content-Type"))
-     (let ((data (jzon:parse (ht:raw-post-data))))
-       (booker/db:create-bookmark (gethash "title" data)
-                                  (gethash "url" data)
-                                  (gethash "body" data))
-       "{ \"status\": \"OK\"}"))
-    (t
-     (booker/db:create-bookmark (params :title) (params :url))
-     (redirect "/bookmarks"))))
-
-(ht:define-easy-handler (bookmarks-edit :uri (match :get "/bookmarks/:id/edit"))
-    ()
-  (let ((bookmark (booker/db:find-bookmark (params :id))))
-    (with-page (:title "Edit bookmark")
-      (:h1 "Edit bookmark")
-      (bookmark-form bookmark :method :put :action (format nil "/bookmarks/~D" (getf bookmark :id))))))
-
-(ht:define-easy-handler (bookmarks-update :uri (match :put "/bookmarks/:id"))
-    ()
-  (let ((bookmark (booker/db:find-bookmark (params :id))))
-    (setf (getf bookmark :title) (params :title)
-          (getf bookmark :url) (params :url))
-    (booker/db:update-bookmark bookmark))
+  (multiple-value-bind (title body)
+      (retrieve-bookmark-content (params :url))
+    (booker/db:create-bookmark title (params :url) body))
   (redirect "/bookmarks"))
+
 
 (ht:define-easy-handler (bookmarks-destory :uri (match :delete "/bookmarks/:id"))
     ()
