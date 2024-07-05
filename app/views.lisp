@@ -4,12 +4,8 @@
 
 (in-package #:booker)
 
-(defmacro with-page ((&key title) &body body)
-  `(spinneret:with-html-string
-     (:!doctype)
-     (:html
-      (:head
-       (:title ,title))
-      (:body
-       (:h2 (:a :href "/bookmarks" "Booker"))
-       ,@body))))
+(djula:add-template-directory (asdf:system-relative-pathname "booker" "app/views/"))
+
+(defparameter +up.html+ (djula:compile-template* "up.html"))
+
+(defparameter +bookmarks-index.html+ (djula:compile-template* "bookmarks-index.html"))

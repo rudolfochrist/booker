@@ -3,3 +3,5 @@
 *.key
 /config/
 /db/data.db
+/.ql-systems/
+/booker.image

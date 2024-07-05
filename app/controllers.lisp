@@ -12,8 +12,7 @@
      (jzon:stringify
       (alexandria:plist-hash-table (list :application :ok))))
     (t
-     (with-page (:title "Heartbeat")
-       (:p "Site is running...")))))
+     (djula:render-template* +up.html+ nil))))
 
 (ht:define-easy-handler (home :uri "/")
     ()
@@ -28,26 +27,8 @@
 (ht:define-easy-handler (bookmarks-index :uri (match :get "/bookmarks"))
     ()
   (let ((bookmarks (apply-search-filter (params :q))))
-    (with-page (:title "Bookmarks")
-      (:div
-       (:form :method :post :action "/bookmarks"
-              (:input :type "url" :name "url")
-              (:input :type "submit" :value "Add Bookmark")))
-      (:div
-       (:form :method :get :action "/bookmarks"
-              (:input :type "text" :name "q")
-              (:input :type "submit" :value "Search")
-              (:a :href "/bookmarks") (:button "Reset")))
-      (if (null bookmarks)
-          (:p "No bookmarks")
-          (:ul
-           (loop for bookmark in bookmarks
-                 do (:li (:div (:a :href (access bookmark :url)
-                                   (access bookmark :title)))
-                         (:div (:form :method :post :action (format nil "/bookmarks/~D" (access bookmark :id))
-                                      :onsubmit "return confirm('Are you sure?');"
-                                      (:input :type "hidden" :name "_method" :value "delete")
-                                      (:input :type "submit" :class "submit-link" :value "Delete"))))))))))
+    (djula:render-template* +bookmarks-index.html+ nil
+                            :bookmarks bookmarks)))
 
 (defun retrieve-bookmark-content (url)
   (let* ((html (dexador:get url))

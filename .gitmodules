@@ -1,0 +1,3 @@
+[submodule "vendor/djula"]
+	path = vendor/djula
+	url = https://github.com/mmontone/djula.git

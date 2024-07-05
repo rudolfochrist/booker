@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}Bookmarks{% endblock %}
+
+{% block content %}
+    <div>
+        <form method="POST" action="/bookmarks">
+            <input name="url" type="url" value=""/>
+            <input type="submit" value="Add bookmark"/>
+        </form>
+    </div>
+    <div>
+        <form method="GET" action="/bookmarks">
+            <input name="q" type="text" value=""/>
+            <input type="submit" value="Search"/>
+            <a href="/bookmarks"><button>Reset</button></a>
+        </form>
+    </div>
+    {% if bookmarks %}
+        <ul>
+            {% for bookmark in bookmarks %}
+                <li>
+                    <div><a href="{{ bookmark.url }}">{{ bookmark.title }}</a></div>
+                    <div>
+                        <form method="POST" action="/bookmarks/{{ bookmark.id }}" onsubmit="return confirm('Are you sure?')">
+                            <input name="_method" type="hidden" value="delete"/>
+                            <input type="submit" value="Delete"/>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No bookmarks</p>
+    {% endif %}
+{% endblock %}

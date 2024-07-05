@@ -28,7 +28,8 @@
                "com.inuoe.jzon"
                "plump"
                "dexador"
-               "access")
+               "access"
+               "djula")
   :components ((:file "package")
                (:module "lib"
                 :components ((:file "config")
@@ -38,7 +39,9 @@
                (:module "app"
                 :components ((:file "db")
                              (:file "views")
-                             (:file "controllers"))))
+                             (:file "controllers")))
+               (:module "app/views"
+                :components ((:static-file "layout.html"))))
   :description "A bookmark managing application."
   :long-description
   #.(uiop:read-file-string

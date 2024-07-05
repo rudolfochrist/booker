@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang=en>
+    <head>
+        <meta charset=UTF-8>
+        <title>{% block  title %}Bookmarks{% endblock %}</title>
+        <link rel=stylesheet href=/bootstrap.min.css>
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h1 class="my-4"><a href="/bookmarks">Booker</a></h1>
+            <main>
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </body>
+</html>
