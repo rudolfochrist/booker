@@ -10,7 +10,7 @@
 
 (defvar *app* nil)
 
-(defun initialize-application (&key (name *name*) (address *address*) (port *port*) reset)
+(defun initialize-application (&key name address port reset)
   (when (or (null *app*)
             reset)
     (setf *app* nil
@@ -23,9 +23,9 @@
     (setf *app* (make-instance (if (string= *env* "development")
                                    'development-acceptor
                                    'hunchentoot:easy-acceptor)
-                               :name name
-                               :address address
-                               :port port
+                               :name (setf *name* (or name *name*))
+                               :address (setf *address* (or address *address*))
+                               :port (setf *port* (or port *port*))
                                :document-root (root "public/")
                                :error-template-directory (when (string/= *env* "development")
                                                            (root "public/"))))))
@@ -49,6 +49,6 @@
     (hunchentoot:stop *app* :soft t)
     (setf *app* nil)))
 
-(defun application-runnning-p ()
+(defun application-running-p ()
   (and (not (null *app*))
        (ht:started-p *app*)))
