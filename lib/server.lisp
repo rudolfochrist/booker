@@ -35,7 +35,7 @@
   (when initialize
     (initialize-application))
   (when (null *app*)
-    (error "Acceptor not initialized!"))
+    (error "Application not initialized!"))
   (hunchentoot:start *app*)
   (format t "Visit ~A://~A:~D"
           (if (hunchentoot:ssl-p *app*) "https" "http")
