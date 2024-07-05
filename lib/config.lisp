@@ -15,6 +15,8 @@
 (defvar *forgery-protection-origin-check* t)
 (defvar *env* "development")
 (defvar *name* (first (last (pathname-directory (uiop:getcwd)))))
+(defvar *address* "127.0.0.1")
+(defvar *port* 5000)
 (defvar *config-path* (root "config/"))
 
 ;;; unbound -> user is forced to set theses in env-config file

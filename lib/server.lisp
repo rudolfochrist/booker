@@ -10,7 +10,7 @@
 
 (defvar *app* nil)
 
-(defun initialize-application (&key name (address "127.0.0.1") (port 5000) reset)
+(defun initialize-application (&key (name *name*) (address *address*) (port *port*) reset)
   (when (or (null *app*)
             reset)
     (setf *app* nil
@@ -23,7 +23,7 @@
     (setf *app* (make-instance (if (string= *env* "development")
                                    'development-acceptor
                                    'hunchentoot:easy-acceptor)
-                               :name (setf *name* (or name *name*))
+                               :name name
                                :address address
                                :port port
                                :document-root (root "public/")
@@ -31,7 +31,7 @@
                                                            (root "public/"))))))
 
 
-(defun start-server (&optional initialize)
+(defun start-application (&optional initialize)
   (when initialize
     (initialize-application))
   (when (null *app*)
@@ -44,7 +44,11 @@
   (values (hunchentoot:acceptor-address *app*)
           (hunchentoot:acceptor-port *app*)))
 
-(defun stop-server ()
+(defun stop-application ()
   (when *app*
     (hunchentoot:stop *app* :soft t)
     (setf *app* nil)))
+
+(defun application-runnning-p ()
+  (and (not (null *app*))
+       (ht:started-p *app*)))

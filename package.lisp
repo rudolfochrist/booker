@@ -12,8 +12,9 @@
   (:export
    #:root
    #:initialize-application
-   #:start-server
-   #:stop-server
+   #:start-application
+   #:stop-application
    #:generate-secret
-   #:secure-random-hex))
+   #:secure-random-hex
+   #:application-runnning-p))
 
