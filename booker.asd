@@ -15,6 +15,7 @@
                "alexandria"
                "hunchentoot"
                "spinneret"
+               "dbd-sqlite3"
                "cl-dbi"
                "datafly"
                "anypool"

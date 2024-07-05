@@ -13,5 +13,7 @@
    #:root
    #:initialize-application
    #:start-server
-   #:stop-server))
+   #:stop-server
+   #:generate-secret
+   #:secure-random-hex))
 
