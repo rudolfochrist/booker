@@ -69,10 +69,11 @@ https://beta.quicklisp.org/archive/map-set/2023-06-18/map-set-20230618-git.tgz d
 https://beta.quicklisp.org/archive/hunchentoot-errors/2023-10-21/hunchentoot-errors-20231021-git.tgz f5092f224f679139d81caa7663925909 hunchentoot-errors-20231021-git.tgz
 https://beta.quicklisp.org/archive/cl-mimeparse/2021-05-31/cl-mimeparse-20210531-git.tgz 0ed931e948aacc4b573e3e3a64ba62c9 cl-mimeparse-20210531-git.tgz
 https://beta.quicklisp.org/archive/jzon/2023-10-21/jzon-v1.1.2.tgz 985209d2191ac8a4c2625bee4570dc46 jzon-v1.1.2.tgz
-https://beta.quicklisp.org/archive/plump/2023-10-21/plump-20231021-git.tgz 7c36cddb7c9642c9ef830a6d171c8898 plump-20231021-git.tgz
-https://beta.quicklisp.org/archive/array-utils/2023-10-21/array-utils-20231021-git.tgz 72b1ec7670a96c6e375f42d58d89f3dc array-utils-20231021-git.tgz
+https://beta.quicklisp.org/archive/float-features/2023-10-21/float-features-20231021-git.tgz 079ebfb72e1af081aed8d8bcc65056c1 float-features-20231021-git.tgz
 https://beta.quicklisp.org/archive/documentation-utils/2023-10-21/documentation-utils-20231021-git.tgz fc82274b8823e4c155d8b1cb551c8baf documentation-utils-20231021-git.tgz
 https://beta.quicklisp.org/archive/trivial-indent/2023-10-21/trivial-indent-20231021-git.tgz 02c224c3faaa8c7752e4ead526ad2e96 trivial-indent-20231021-git.tgz
+https://beta.quicklisp.org/archive/plump/2023-10-21/plump-20231021-git.tgz 7c36cddb7c9642c9ef830a6d171c8898 plump-20231021-git.tgz
+https://beta.quicklisp.org/archive/array-utils/2023-10-21/array-utils-20231021-git.tgz 72b1ec7670a96c6e375f42d58d89f3dc array-utils-20231021-git.tgz
 https://beta.quicklisp.org/archive/dexador/2023-10-21/dexador-20231021-git.tgz 0399d780436d186cf5ccfb5a2f4df4eb dexador-20231021-git.tgz
 https://beta.quicklisp.org/archive/fast-http/2023-10-21/fast-http-20231021-git.tgz 5ec4440ce3df289cef67be034da2c29d fast-http-20231021-git.tgz
 https://beta.quicklisp.org/archive/xsubseq/2017-08-30/xsubseq-20170830-git.tgz 960bb8f329649b6e4b820e065e6b38e8 xsubseq-20170830-git.tgz
