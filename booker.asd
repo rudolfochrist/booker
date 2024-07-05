@@ -38,7 +38,6 @@
                              (:file "server")))
                (:module "app"
                 :components ((:file "db")
-                             (:file "views")
                              (:file "controllers")))
                (:module "app/views"
                 :components ((:static-file "layout.html"))))

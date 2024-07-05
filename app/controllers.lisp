@@ -4,6 +4,11 @@
 
 (in-package #:booker)
 
+;;; views
+(djula:add-template-directory (asdf:system-relative-pathname "booker" "app/views/"))
+(defparameter +up.html+ (djula:compile-template* "up.html"))
+(defparameter +bookmarks-index.html+ (djula:compile-template* "bookmarks-index.html"))
+
 
 (ht:define-easy-handler (up :uri (match :get "/up"))
     ()
