@@ -83,3 +83,12 @@ https://beta.quicklisp.org/archive/cl-cookie/2022-07-07/cl-cookie-20220707-git.t
 https://beta.quicklisp.org/archive/trivial-mimes/2023-10-21/trivial-mimes-20231021-git.tgz cccad942472f6af53e55dae64f70efe8 trivial-mimes-20231021-git.tgz
 https://beta.quicklisp.org/archive/chipz/2023-06-18/chipz-20230618-git.tgz c67e0dd777e6dd9b463bc433a32d90a9 chipz-20230618-git.tgz
 https://beta.quicklisp.org/archive/access/2022-07-07/access-20220707-git.tgz b7f64a742caf1d5a1dbc4eee614703ee access-20220707-git.tgz
+https://beta.quicklisp.org/archive/djula/2023-10-21/djula-20231021-git.tgz d4a66f94944b3c6606eb7803ac54494f djula-20231021-git.tgz
+https://beta.quicklisp.org/archive/cl-slice/2021-05-31/cl-slice-20210531-git.tgz d7be90ed28b5c316b1f31b4f567bd725 cl-slice-20210531-git.tgz
+https://beta.quicklisp.org/archive/let-plus/2019-11-30/let-plus-20191130-git.tgz 1b8d1660ed67852ea31cad44a6fc15d0 let-plus-20191130-git.tgz
+https://beta.quicklisp.org/archive/cl-locale/2015-10-31/cl-locale-20151031-git.tgz 7a8fb3678938af6dc5c9fd6431428aff cl-locale-20151031-git.tgz
+https://beta.quicklisp.org/archive/arnesi/2017-04-03/arnesi-20170403-git.tgz bbb34e1a646b2cc489766690c741d964 arnesi-20170403-git.tgz
+https://beta.quicklisp.org/archive/collectors/2022-02-20/collectors-20220220-git.tgz 429ba50dd0a45e5a6e093a13b2d23d0e collectors-20220220-git.tgz
+https://beta.quicklisp.org/archive/gettext/2017-11-30/gettext-20171130-git.tgz d162cb5310db5011c82ef6343fd280ed gettext-20171130-git.tgz
+https://beta.quicklisp.org/archive/cl-yacc/2023-02-14/cl-yacc-20230214-git.tgz 4692600db768fba4b116f0832f895057 cl-yacc-20230214-git.tgz
+https://beta.quicklisp.org/archive/cl-parser-combinators/2013-11-11/cl-parser-combinators-20131111-git.tgz 25ad9b1459901738a6394422a41b8fec cl-parser-combinators-20131111-git.tgz
