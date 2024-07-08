@@ -3,42 +3,47 @@
 {% block title %}Bookmarks{% endblock %}
 
 {% block content %}
-<div>
-    <form method="POST" action="/bookmarks" class="row">
-        <div class="col">
-            <input class="form-control" name="url" type="url" value=""/>
+    {% for f in flash %}
+        <div class="alert alert-{{ f|first }}" role="alert">
+            {{ f|rest }}
         </div>
-        <div class="col">
-            <button type="submit" class="btn btn-primary">Add bookmark</button>
-        </div>
-    </form>
-</div>
-<div class="mt-4">
-    <form method="GET" action="/bookmarks" class="row">
-        <div class="col">
-            <input class="form-control" name="q" type="text" value=""/>
-        </div>
-        <div class="col">
-            <button class="btn btn-primary" type="submit">Search</button>
-            <a class="btn btn-secondary" href="/bookmarks">Reset</a>
-        </div>
-    </form>
-</div>
-<div class="mt-4">
-    {% if bookmarks %}
-        <div class="list-group">
-            {% for bookmark in bookmarks %}
-                <a class="list-group-item list-group-item-action d-flex justify-content-between" href="{{ bookmark.url }}">
-                    {{ bookmark.title }}
-                    <form method="POST" action="/bookmarks/{{ bookmark.id }}" onsubmit="return confirm('Are you sure?')">
-                        <input name="_method" type="hidden" value="delete"/>
-                        <input type="submit" value="Delete" class="btn btn-outline-danger" />
-                    </form>
-                </a>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>No bookmarks</p>
-    {% endif %}
-</div>
+    {% endfor %}
+    <div>
+        <form method="POST" action="/bookmarks" class="row">
+            <div class="col">
+                <input class="form-control" name="url" type="url" value=""/>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Add bookmark</button>
+            </div>
+        </form>
+    </div>
+    <div class="mt-4">
+        <form method="GET" action="/bookmarks" class="row">
+            <div class="col">
+                <input class="form-control" name="q" type="text" value=""/>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" type="submit">Search</button>
+                <a class="btn btn-secondary" href="/bookmarks">Reset</a>
+            </div>
+        </form>
+    </div>
+    <div class="mt-4">
+        {% if bookmarks %}
+            <div class="list-group">
+                {% for bookmark in bookmarks %}
+                    <a class="list-group-item list-group-item-action d-flex justify-content-between" href="{{ bookmark.url }}">
+                        {{ bookmark.title }}
+                        <form method="POST" action="/bookmarks/{{ bookmark.id }}" onsubmit="return confirm('Are you sure?')">
+                            <input name="_method" type="hidden" value="delete"/>
+                            <input type="submit" value="Delete" class="btn btn-outline-danger" />
+                        </form>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No bookmarks</p>
+        {% endif %}
+    </div>
 {% endblock %}
