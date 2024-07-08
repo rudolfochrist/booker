@@ -1,3 +1,4 @@
+#+sbcl (require 'sb-aclrepl)
 (require 'asdf)
 (asdf:initialize-source-registry
  '(:source-registry
