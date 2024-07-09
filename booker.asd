@@ -40,7 +40,9 @@
                 :components ((:file "db")
                              (:file "controllers")))
                (:module "app/views"
-                :components ((:static-file "layout.html"))))
+                :components ((:static-file "layout.html")
+                             (:static-file "up.html")
+                             (:static-filg "bookmarks-index.html"))))
   :description "A bookmark managing application."
   :long-description
   #.(uiop:read-file-string
