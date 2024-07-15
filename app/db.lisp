@@ -63,7 +63,8 @@
 (defun all-bookmarks ()
   (q ()
     (select (:id :url :title)
-      (from :bookmarks))))
+      (from :bookmarks)
+      (order-by (:desc :created_at)))))
 
 (defun find-bookmark (id)
   (q (:operation datafly:retrieve-one)
@@ -79,13 +80,12 @@
       (dbi:fetch-all (dbi:execute query (list st))))))
 
 (defun create-bookmark (title url &optional body)
-  (let ((id (generate-db-id)))
-    (q (:operation datafly:execute)
-      (insert-into :bookmarks
-        (set= :id id
-              :title title
-              :url url
-              :body body)))))
+  (anypool:with-connection (conn *dbi-pool*)
+    (let ((id (generate-db-id))
+          (insert-into  (dbi:prepare conn "
+INSERT INTO bookmarks (id, title, url, body, created_at)
+VALUES (?, ?, ?, ?, datetime('now'))")))
+      (dbi:execute insert-into (list id title url body)))))
 
 (defun update-bookmark (bookmark)
   (q (:operation datafly:execute)
