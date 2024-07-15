@@ -49,4 +49,21 @@
      (uiop:subpathname *load-pathname* "README.md"))
   :in-order-to ((test-op (test-op "booker/test"))))
 
+(defsystem "booker/test"
+  :author "Sebastian Christ <rudolfo.christ@pm.me>"
+  :maintainer "Sebastian Christ <rudolfo.christ@pm.me>"
+  :mailto "rudolfo.christ@pm.me"
+  :license "MPL-2.0"
+  :description "Tests for booker"
+  :depends-on ((:require "uiop")
+               "fiveam"
+               "fiveam-matchers"
+               "booker")
+  :pathname "t/"
+  :components ((:file "tests"))
+  :perform (test-op (op c)
+                    (unless (uiop:symbol-call :fiveam :run! :booker/test)
+                      #+(not (or :swank :slynk))
+                      (error "Tests failed."))))
+
 

@@ -36,6 +36,11 @@
   (:default-initargs
    :reason "URLs must use HTTPS"))
 
+(define-condition no-url-found (booker-error)
+  ()
+  (:default-initargs
+   :reason "URL is nil or empty string"))
+
 (ht:define-easy-handler (up :uri (match :get "/up"))
     ()
   (cond
@@ -61,6 +66,9 @@
     (render +bookmarks-index.html+ :arguments (list :bookmarks bookmarks))))
 
 (defun retrieve-bookmark-content (url)
+  (when (or (null url)
+            (zerop (length url)))
+    (error 'no-url-found))
   (when (uiop:string-prefix-p "http://" url)
     (error  'http-url-found :url url))
   (let* ((html (dexador:get url))
@@ -87,6 +95,12 @@
     (http-url-found (condition)
       (ht:log-message* :error "Error processing URL ~A" (http-url-found-url condition))
       (flash "danger" (booker-error-reason condition))
+      (setf (ht:return-code*) ht:+http-bad-request+)
+      (bookmarks-index))
+    (no-url-found (condition)
+      (declare (ignore condition))
+      (ht:log-message* :error "No URL send")
+      (flash "danger" "Please provide a URL!")
       (setf (ht:return-code*) ht:+http-bad-request+)
       (bookmarks-index))))
 
