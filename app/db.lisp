@@ -51,6 +51,10 @@
                  (,operation ,@body))
               `(,operation ,@body))))))
 
+(defun string-empty-p (string)
+  (check-type string string)
+  (or (null string) (zerop (length string))))
+
 (defun generate-db-id ()
   (anypool:with-connection (conn *dbi-pool*)
     (let ((replace-into (dbi:prepare conn "REPLACE INTO db_id_generator (val) VALUES ('a')"))
@@ -82,10 +86,14 @@
 (defun create-bookmark (title url &optional body)
   (anypool:with-connection (conn *dbi-pool*)
     (let ((id (generate-db-id))
+          (bookmark-title (if (string-empty-p title)
+                              url
+                              title))
           (insert-into  (dbi:prepare conn "
 INSERT INTO bookmarks (id, title, url, body, created_at)
 VALUES (?, ?, ?, ?, datetime('now'))")))
-      (dbi:execute insert-into (list id title url body)))))
+      (dbi:execute insert-into (list id bookmark-title url body))
+      id)))
 
 (defun update-bookmark (bookmark)
   (q (:operation datafly:execute)

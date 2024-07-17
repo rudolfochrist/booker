@@ -14,3 +14,9 @@
     (booker::retrieve-bookmark-content ""))
   (signals booker::no-url-found
     (booker::retrieve-bookmark-content nil)))
+
+(test create-bookmark-with-url-for-missing-title
+  (let* ((url "https://example-example.org")
+         (id (booker/db:create-bookmark "" url))
+         (title (getf (booker/db:find-bookmark id) :title)))
+    (assert-that title (equal-to url))))
