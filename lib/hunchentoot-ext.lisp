@@ -6,3 +6,6 @@
 
 (def-http-return-code +http-unprocessable-content+ 422 "Unprocessable Content")
 (export '+http-unprocessable-content+)
+
+(defmethod session-cookie-name ((acceptor easy-acceptor))
+  (format nil "_~A_session" booker::*name*))
