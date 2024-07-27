@@ -49,4 +49,4 @@
   (hunchentoot:send-headers))
 
 (defun redirect (target &optional (code hunchentoot:+http-see-other+))
-  (hunchentoot:redirect target :code code))
+  (hunchentoot:redirect target :code code :add-session-id nil))
