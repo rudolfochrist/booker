@@ -11,7 +11,8 @@
    #:update-bookmark
    #:delete-bookmark
    #:create-bookmark
-   #:search-bookmarks))
+   #:search-bookmarks
+   #:find-bookmark-with-body))
 
 (in-package #:booker/db)
 
@@ -55,6 +56,14 @@
 (defun find-bookmark (id)
   (q (:operation datafly:retrieve-one)
     (select (:id :title :url)
+      (from :bookmarks)
+      (where (:= :id (typecase id
+                       (string (parse-integer id))
+                       (otherwise id)))))))
+
+(defun find-bookmark-with-body (id)
+  (q (:operation datafly:retrieve-one)
+    (select (:id :title :url :body)
       (from :bookmarks)
       (where (:= :id (typecase id
                        (string (parse-integer id))

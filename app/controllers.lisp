@@ -8,6 +8,7 @@
 (djula:add-template-directory (asdf:system-relative-pathname "booker" "app/views/"))
 (defparameter +up.html+ (djula:compile-template* "up.html"))
 (defparameter +bookmarks-index.html+ (djula:compile-template* "bookmarks-index.html"))
+(defparameter +bookmarks-show.html+ (djula:compile-template* "bookmarks-show.html"))
 
 (defun render (view &key status arguments destination)
   (when status
@@ -103,6 +104,12 @@
       (flash "danger" "Please provide a URL!")
       (setf (ht:return-code*) ht:+http-bad-request+)
       (bookmarks-index))))
+
+(ht:define-easy-handler (bookmarks-show :uri (match :get "/bookmarks/:id"))
+    ()
+  (uiop:if-let ((bookmark (booker/db:find-bookmark-with-body (params :id))))
+    (render +bookmarks-show.html+ :arguments (list :bookmark bookmark))
+    (format nil "~A" (setf (ht:return-code*) ht:+http-not-found+))))
 
 
 (ht:define-easy-handler (bookmarks-destory :uri (match :delete "/bookmarks/:id"))
