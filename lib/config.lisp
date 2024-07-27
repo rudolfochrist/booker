@@ -4,7 +4,7 @@
 
 (in-package #:booker)
 
-;;; roo
+;;; root
 (defvar *root* (uiop:getcwd))
 
 (defun root (path)
