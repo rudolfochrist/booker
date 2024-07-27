@@ -9,3 +9,13 @@
 
 (defmethod session-cookie-name ((acceptor easy-acceptor))
   (format nil "_~A_session" booker::*name*))
+(in-package #:chunga)
+
+(defun as-keyword (string &key (destructivep t))
+  "Converts the string STRING to a keyword where all characters are
+uppercase or lowercase, taking into account the current readtable
+case.  Might destructively modify STRING if DESTRUCTIVEP is true which
+is the default.  \"Knows\" several HTTP header names and methods and
+is optimized to not call INTERN for these."
+  (declare (ignore destructivep))
+  (gethash string +string-to-keyword-hash+))
