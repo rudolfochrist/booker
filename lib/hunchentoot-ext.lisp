@@ -9,6 +9,13 @@
 
 (defmethod session-cookie-name ((acceptor easy-acceptor))
   (format nil "_~A_session" booker::*name*))
+
+(defmethod session-created ((acceptor easy-acceptor) session)
+  ;; Set SameSite=Lax for session cookies
+  (declare (ignore session))
+  (let ((cookie (cdr (assoc (session-cookie-name acceptor) (cookies-out*) :test #'string=))))
+    (setf (cookie-same-site cookie) "Lax")))
+
 (in-package #:chunga)
 
 (defun as-keyword (string &key (destructivep t))
