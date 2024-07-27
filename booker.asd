@@ -61,6 +61,6 @@
   :perform (test-op (op c)
                     (unless (uiop:symbol-call :fiveam :run! :booker/test)
                       #+(not (or :swank :slynk))
-                      (error "Tests failed."))))
+                      (uiop:quit 1))))
 
 
