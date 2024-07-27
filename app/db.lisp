@@ -5,8 +5,6 @@
 (defpackage #:booker/db
   (:use :cl :booker :sxql)
   (:export
-   #:migrate
-   #:create-migration
    #:all-bookmarks
    #:generate-db-id
    #:find-bookmark
@@ -23,22 +21,6 @@
                                   (dbi:connect :sqlite3 :database-name (booker:root "db/data.db")))
                      :disconnector #'dbi:disconnect
                      :ping #'dbi:ping))
-
-(defun migrate ()
-  (anypool:with-connection (conn *dbi-pool*)
-    (let* ((provider (migratum.provider.local-path:make-provider (list (root "db/migrations/"))))
-           (driver (migratum.driver.dbi:make-driver provider conn)))
-      (migratum:provider-init provider)
-      (migratum:driver-init driver)
-      (migratum:apply-pending driver))))
-
-(defun create-migration (name)
-  (let ((provider (migratum.provider.local-path:make-provider (list (root "db/migrations/"))))
-        (id (migratum:make-migration-id)))
-    (migratum:provider-init provider)
-    (migratum:provider-create-migration :up :sql provider id name "")
-    (migratum:provider-create-migration :down :sql provider id name "")))
-
 
 ;;; data api
 

@@ -59,9 +59,6 @@ https://beta.quicklisp.org/archive/kebab/2015-06-08/kebab-20150608-git.tgz b7136
 https://beta.quicklisp.org/archive/log4cl/2023-06-18/log4cl-20230618-git.tgz 4b80485879662a02887858163195480a log4cl-20230618-git.tgz
 https://beta.quicklisp.org/archive/anypool/2023-10-21/anypool-20231021-git.tgz 6793fa4b323b39f33b198e386e8a00ed anypool-20231021-git.tgz
 https://beta.quicklisp.org/archive/cl-speedy-queue/2015-03-02/cl-speedy-queue-20150302-git.tgz 509d1acf7e4cfcef99127de75b16521f cl-speedy-queue-20150302-git.tgz
-https://beta.quicklisp.org/archive/cl-migratum/2023-10-21/cl-migratum-20231021-git.tgz b89f99ff3e05e9e0568eaa6152c84914 cl-migratum-20231021-git.tgz
-https://beta.quicklisp.org/archive/cl-ascii-table/2020-06-10/cl-ascii-table-20200610-git.tgz 6f2eaaae3fb03ba719d77ed3ffaeaf4f cl-ascii-table-20200610-git.tgz
-https://beta.quicklisp.org/archive/cl-reexport/2021-02-28/cl-reexport-20210228-git.tgz e083a9c49fe39d65f1ff7743eebe37c2 cl-reexport-20210228-git.tgz
 https://beta.quicklisp.org/archive/ironclad/2023-10-21/ironclad-v0.59.tgz a7fd811f8b6f2a3e8c75e48cdf781fb3 ironclad-v0.59.tgz
 https://beta.quicklisp.org/archive/myway/2022-11-06/myway-20221106-git.tgz 81c32575181b11f9a9cb6a58ed6dbeea myway-20221106-git.tgz
 https://beta.quicklisp.org/archive/quri/2023-06-18/quri-20230618-git.tgz 7845817b5a4e3c25c17b02848fa0737f quri-20230618-git.tgz
@@ -92,3 +89,8 @@ https://beta.quicklisp.org/archive/collectors/2022-02-20/collectors-20220220-git
 https://beta.quicklisp.org/archive/gettext/2017-11-30/gettext-20171130-git.tgz d162cb5310db5011c82ef6343fd280ed gettext-20171130-git.tgz
 https://beta.quicklisp.org/archive/cl-yacc/2023-02-14/cl-yacc-20230214-git.tgz 4692600db768fba4b116f0832f895057 cl-yacc-20230214-git.tgz
 https://beta.quicklisp.org/archive/cl-parser-combinators/2013-11-11/cl-parser-combinators-20131111-git.tgz 25ad9b1459901738a6394422a41b8fec cl-parser-combinators-20131111-git.tgz
+https://beta.quicklisp.org/archive/fiveam/2023-10-21/fiveam-20231021-git.tgz 985b38762e4217035d442522bc0a7137 fiveam-20231021-git.tgz
+https://beta.quicklisp.org/archive/asdf-flv/2023-10-21/asdf-flv-version-2.2.tgz 55f33e734bce84b3be67c9b4ed0a1462 asdf-flv-version-2.2.tgz
+https://beta.quicklisp.org/archive/fiveam-matchers/2023-10-21/fiveam-matchers-20231021-git.tgz 9a530eb596b54fe1a9373b52e1c60f7c fiveam-matchers-20231021-git.tgz
+https://beta.quicklisp.org/archive/cl-str/2023-10-21/cl-str-20231021-git.tgz 5e3c4510e6d570846b38387f8a8d26e7 cl-str-20231021-git.tgz
+https://beta.quicklisp.org/archive/cl-change-case/2023-10-21/cl-change-case-20231021-git.tgz 14282a5134392bccd36e02b0fc9ada4f cl-change-case-20231021-git.tgz
