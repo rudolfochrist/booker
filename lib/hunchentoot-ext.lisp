@@ -30,7 +30,10 @@
       "Sec-Fetch-Mode"
       "Sec-Fetch-Site"
       "Sec-Fetch-User"
-      "Upgrade-Insecure-Requests"))
+      "Upgrade-Insecure-Requests"
+      "X-Forwarded-For"
+      "X-Forwarded-Host"
+      "X-Forwarded-Proto"))
 
   (dolist (word +more-known-words+)
     (setf (gethash word *string-to-keyword-hash*) (make-keyword word nil))))

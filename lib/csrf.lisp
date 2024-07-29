@@ -78,18 +78,12 @@ you can disable origin checking with the
 (defun request-origin (request)
   (hunchentoot:header-in "Origin" request))
 
-(defun http-forwarded (request key)
-  (let ((result '()))
-    (ppcre:do-register-groups (value)
-        ((format nil "~A=([^;,]+)" key) (hunchentoot:header-in "Forwarded" request) (nreverse result))
-      (push value result))))
-
 (defun scheme (request)
   (cond
     ((hunchentoot:ssl-p (hunchentoot:request-acceptor request))
      "https")
-    ((member (car (last (http-forwarded request "proto"))) +allowed-schemes+ :test 'string=)
-     (car (last (http-forwarded request "proto"))))
+    ((member (ht:header-in :x-forwarded-proto request) +allowed-schemes+ :test 'string=)
+     (ht:header-in :x-forwarded-proto request))
     (t
      "http")))
 
@@ -104,8 +98,8 @@ you can disable origin checking with the
 (defun host-with-port (request)
   (destructuring-bind (authority host &optional port)
       (split-authority
-       (or (car (last (http-forwarded request "host")))
-           (hunchentoot:header-in :host request)
+       (or (ht:header-in :x-forwarded-host request)
+           (ht:header-in :host request)
            (let ((acceptor (hunchentoot:request-acceptor request)))
              (list (hunchentoot:acceptor-address acceptor)
                    (hunchentoot:acceptor-port acceptor)))))
