@@ -121,11 +121,11 @@ you can disable origin checking with the
 
 (defun valid-request-origin-p (request)
   (if *forgery-protection-origin-check*
-      (if (string= (request-origin request) "null")
+      (if (or (null (request-origin request))
+              (string= (request-origin request) "null"))
           (error +null-origin-message+)
-          (or (null (request-origin request))
-              (string= (request-origin request)
-                       (request-base-url request))))
+          (string= (request-origin request)
+                   (request-base-url request)))
       t))
 
 (defun valid-authenticity-token-p (session encoded-masked-token)
