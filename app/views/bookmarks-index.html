@@ -10,6 +10,7 @@
     {% endfor %}
     <div>
         <form method="POST" action="/bookmarks" class="row">
+            {% form-authenticity-token %}
             <div class="col">
                 <input class="form-control" name="url" type="url" value=""/>
             </div>
@@ -39,6 +40,7 @@
                         </a>
                         <div class="d-flex column-gap-2">
                             <form method="POST" action="/bookmarks/{{ bookmark.id }}" onsubmit="return confirm('Are you sure?')">
+                                {% form-authenticity-token %}
                                 <input name="_method" type="hidden" value="delete"/>
                                 <input type="submit" value="Delete" class="btn btn-outline-danger" />
                             </form>

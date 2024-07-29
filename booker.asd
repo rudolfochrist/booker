@@ -31,7 +31,9 @@
                (:module "lib"
                 :components ((:file "config")
                              (:file "hunchentoot-ext")
+                             (:file "csrf")
                              (:file "routing")
+                             (:file "views")
                              (:file "server")))
                (:module "app"
                 :components ((:file "db")
