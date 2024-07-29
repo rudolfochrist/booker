@@ -42,7 +42,7 @@
   (:default-initargs
    :reason "URL is nil or empty string"))
 
-(ht:define-easy-handler (up :uri (match :get "/up"))
+(ht:define-easy-handler (up :uri (match :get "/up/?"))
     ()
   (cond
     ((string= (ht:header-in* "Accept") "application/json")
@@ -61,7 +61,7 @@
       (booker/db:search-bookmarks search-term)
       (booker/db:all-bookmarks)))
 
-(ht:define-easy-handler (bookmarks-index :uri (match :get "/bookmarks"))
+(ht:define-easy-handler (bookmarks-index :uri (match :get "/bookmarks/?"))
     ()
   (let ((bookmarks (apply-search-filter (params :q))))
     (render +bookmarks-index.html+ :arguments (list :bookmarks bookmarks))))
@@ -85,7 +85,7 @@
     (values (plump:render-text (first (plump:get-elements-by-tag-name dom "title")))
             (plump:render-text main))))
 
-(ht:define-easy-handler (bookmarks-create :uri (match :post "/bookmarks"))
+(ht:define-easy-handler (bookmarks-create :uri (match :post "/bookmarks/?"))
     ()
   (handler-case
       (multiple-value-bind (title body)
@@ -105,14 +105,14 @@
       (setf (ht:return-code*) ht:+http-bad-request+)
       (bookmarks-index))))
 
-(ht:define-easy-handler (bookmarks-show :uri (match :get "/bookmarks/:id"))
+(ht:define-easy-handler (bookmarks-show :uri (match :get "/bookmarks/:id/?"))
     ()
   (uiop:if-let ((bookmark (booker/db:find-bookmark-with-body (params :id))))
     (render +bookmarks-show.html+ :arguments (list :bookmark bookmark))
     (format nil "~A" (setf (ht:return-code*) ht:+http-not-found+))))
 
 
-(ht:define-easy-handler (bookmarks-destory :uri (match :delete "/bookmarks/:id"))
+(ht:define-easy-handler (bookmarks-destory :uri (match :delete "/bookmarks/:id/?"))
     ()
   (when (booker/db:find-bookmark (params :id))
     (booker/db:delete-bookmark (params :id))
