@@ -94,24 +94,23 @@ you can disable origin checking with the
      "http")))
 
 (defun split-authority (authority)
-  (destructuring-bind (host port)
-      (etypecase authority
-        (list authority)
-        (string (uiop:split-string authority :separator '(#\:))))
+  (destructuring-bind (host &optional port)
+      (uiop:split-string authority :separator '(#\:))
     (list authority
           host
-          (etypecase port
-            (string (parse-integer port))
-            (fixnum port)))))
+          (when port
+            (parse-integer port)))))
 
 (defun host-with-port (request)
-  (destructuring-bind (authority host port)
+  (destructuring-bind (authority host &optional port)
       (split-authority
        (or (car (last (http-forwarded request "host")))
            (hunchentoot:header-in :host request)
            (let ((acceptor (hunchentoot:request-acceptor request)))
              (list (hunchentoot:acceptor-address acceptor)
                    (hunchentoot:acceptor-port acceptor)))))
+    (unless port
+      (setf port (cdr (assoc (scheme request) +default-ports+ :test #'string=))))
     (if (= port
            (cdr (assoc (scheme request) +default-ports+ :test #'string=)))
         host
