@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# see https://github.com/adriancooney/Taskfile
+
+function db:create() {
+    dbmate --env-file config/development.env create
+}
+
+function db:drop() {
+    dbmate --env-file config/development.env drop
+}
+
+function db:migrate() {
+    dbmate --env-file config/development.env up
+}
+
+function db:status() {
+    dbmate --env-file config/development.env status
+}
+
+function db:load {
+    dbmate --env-file config/development.env load
+}
+
+function tests() {
+    sbcl --non-interactive --no-userinit --load init.lisp \
+         --eval '(asdf:test-system "booker")'
+}
+
+function clean() {
+    find "$PWD" -name "*.fasl" -delete
+}
+
+function help() {
+    compgen -A function | sort -n | cat -n
+}
+
+function default() {
+    help
+}
+
+TIMEFORMAT="Task completed in %3lR"
+time "${@:-default}"
