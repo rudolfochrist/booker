@@ -1,6 +1,3 @@
-[submodule "vendor/djula"]
-	path = vendor/djula
-	url = https://github.com/mmontone/djula.git
 [submodule "vendor/hunchentoot"]
 	path = vendor/hunchentoot
 	url = https://github.com/edicl/hunchentoot.git
