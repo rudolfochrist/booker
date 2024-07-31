@@ -12,8 +12,8 @@ in. E.g. `development`, `production`, etc.
 See `lib/config.lisp` for configuration options.
 
 ```sh
-$ git clone --recurse-submodules https://github.com/rudolfochrist/booker.git
-$ install-dependecies # skip this if you're using Quicklisp. See: https://github.com/rudolfochrist/project-loader
+$ git clone https://github.com/rudolfochrist/booker.git
+$ ocicl install
 ```
 
 DB migrations are handled manually. If you start a fresh DB
@@ -34,6 +34,6 @@ to start the REPL. Then
 
 REPL:
 ```common-lisp
-CL-USER: (asdf:load-system "booker" :force t) ;; user (ql:quickload "booker") if you use Quicklisp
+CL-USER: (asdf:load-system "booker" :force t)
 CL-USER: (booker:start-application t)
 ```
