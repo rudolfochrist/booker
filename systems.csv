@@ -1,4 +1,4 @@
-alexandria, ghcr.io/ocicl/iterate@sha256:398e3747b164f42e1a19fccf974bdf9c2a7938660f9bead1bb052124d58b5476, iterate-20240503-26cf129/ext/alexandria/alexandria.asd
+alexandria, ghcr.io/ocicl/alexandria@sha256:e433c2e076ed3bcf8641b97b00192680db2201d305efac9293539dee88c7fbf7, alexandria-20240503-8514d8e/alexandria.asd
 hunchentoot, ghcr.io/ocicl/hunchentoot@sha256:1dbccc1f9770d3d8917ef87d71720b4ec7f2d6bebf24a3072afca478b00b4427, hunchentoot-1.3.1/hunchentoot.asd
 chunga, ghcr.io/ocicl/chunga@sha256:b3b986951e2fbd881f038194563c74b235705c4259e9206902e314fdd3933cb3, chunga-20240503-fab9bd3/chunga.asd
 trivial-gray-streams, ghcr.io/ocicl/trivial-gray-streams@sha256:d0cc9fb73876100ee60647524f98b5b22566fa1c3a985d79548b0d2b228f8b51, trivial-gray-streams-20240503-a7ead68/trivial-gray-streams.asd
@@ -187,3 +187,4 @@ fiveam-matchers, ghcr.io/ocicl/fiveam-matchers@sha256:64b7cd2a1e851a903513552f41
 str.test, ghcr.io/ocicl/str@sha256:3771c466d33a923d4fd1b1aa71f7a60d0029405e7fb3bafae1a3f19b7ac9b121, cl-str-20240708-1bcf26d/str.test.asd
 str, ghcr.io/ocicl/str@sha256:3771c466d33a923d4fd1b1aa71f7a60d0029405e7fb3bafae1a3f19b7ac9b121, cl-str-20240708-1bcf26d/str.asd
 cl-change-case, ghcr.io/ocicl/cl-change-case@sha256:63b6a033f762d6dc5d365ce49f2a2c691677f2ec1375ebe4226d13b19a29dc7c, cl-change-case-0.2.1/cl-change-case.asd
+asdf-package-system, ghcr.io/ocicl/asdf-package-system@sha256:dfacc260786f4e9e2aa13a797a7b326b58e08ea5db778421a9985b9c67362df1, asdf-package-system-20240503-61776f2/asdf-package-system.asd

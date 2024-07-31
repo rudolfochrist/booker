@@ -4,5 +4,5 @@
  '(:source-registry
    (:directory (:here))
    (:tree (:here "vendor/"))
-   (:tree (:here ".ql-systems/"))
+   (:tree (:here "systems/"))
    :inherit-configuration))
