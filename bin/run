@@ -2,24 +2,38 @@
 
 # see https://github.com/adriancooney/Taskfile
 
+env="${APP_ENV:-development}"
+
+if [[ -e "config/${env}.env" ]]
+then
+    . "config/${env}.env"
+else
+    echo "Please add a configuration file: config/${env}.env"
+    exit 1
+fi
+
 function db:create() {
-    dbmate --env-file config/development.env create
+    dbmate --url "${DATABASE_URL}" create
 }
 
 function db:drop() {
-    dbmate --env-file config/development.env drop
+    dbmate --url "${DATABASE_URL}" drop
 }
 
 function db:migrate() {
-    dbmate --env-file config/development.env up
+    dbmate --url "${DATABASE_URL}" up
 }
 
 function db:status() {
-    dbmate --env-file config/development.env status
+    dbmate --url "${DATABASE_URL}" status
 }
 
-function db:load {
-    dbmate --env-file config/development.env load
+function db:load() {
+    dbmate --url "${DATABASE_URL}" load
+}
+
+function start() {
+    sbcl --no-userinit --load init.lisp
 }
 
 function tests() {
@@ -27,8 +41,29 @@ function tests() {
          --eval '(asdf:test-system "booker")'
 }
 
+function dbconsole() {
+    psql -U "${DB_USERNAME}" "${DB_DATABASE}"
+}
+
 function clean() {
     find "$PWD" -name "*.fasl" -delete
+}
+
+function deps:install() {
+    name="$(basename "$PWD")"
+    system_name="${1:-$name}"
+    echo "Installing systems."
+    ocicl install
+
+    echo "Preloading systems."
+    sbcl --non-interactive --no-userinit \
+         --load init.lisp \
+         --eval "(asdf:load-system \"${system_name}\" :force t)" \
+         --eval '(uiop:quit)'
+}
+
+function deps:clear() {
+    rm -rf systems/
 }
 
 function help() {
@@ -36,7 +71,7 @@ function help() {
 }
 
 function default() {
-    help
+    start
 }
 
 TIMEFORMAT="Task completed in %3lR"
