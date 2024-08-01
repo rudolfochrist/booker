@@ -27,7 +27,7 @@ have to copy it over manually. If dependencies are installed and
 migrations applied then run
 
 ```sh
-$ BOOKER_ENV=production sbcl --no-userinit --load init.lisp
+$ APP_ENV=production sbcl --no-userinit --load init.lisp
 ```
 
 to start the REPL. Then

@@ -14,7 +14,7 @@
   (when (or (null *app*)
             reset)
     (setf *app* nil
-          *env* (or (uiop:getenvp "BOOKER_ENV") *env*))
+          *env* (or (uiop:getenvp "APP_ENV") *env*))
     (load-config)
     (setf hunchentoot:*methods-for-post-parameters* (list :post :put :patch :delete)
           hunchentoot:*rewrite-for-session-urls* nil  ; use only cookies for sessions.
