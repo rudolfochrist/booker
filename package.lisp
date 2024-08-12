@@ -16,5 +16,6 @@
    #:stop-application
    #:generate-secret
    #:secure-random-hex
-   #:application-running-p))
+   #:application-running-p
+   #:load-config))
 
