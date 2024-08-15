@@ -21,13 +21,19 @@
 
 ;;; unbound -> user is forced to set theses in env-config file
 (defvar *secret-key-base*)
+(defvar *database-name*)
+(defvar *database-host*)
+(defvar *databaseb-username*)
+(defvar *database-password*)
 
 ;;; helpers
 (defun load-config (&optional env)
   (uiop:if-let ((config (probe-file (make-pathname :defaults *config-path*
                                                    :name (or env *env*)
                                                    :type "lisp"))))
-    (load config)))
+    (progn
+      (format t "~&Loading config: ~A" config)
+      (load config))))
 
 (defun secure-random-hex (&optional (n 16))
   (crypto:byte-array-to-hex-string

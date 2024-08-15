@@ -14,11 +14,13 @@
   :depends-on ((:require "uiop")
                "alexandria"
                "hunchentoot"
-               "spinneret"
                "dbd-sqlite3"
                "cl-dbi"
                "datafly"
                "anypool"
+               "cl-migratum"
+               "cl-migratum.provider.local-path"
+               "cl-migratum.driver.dbi"
                "ironclad"
                "myway"
                "hunchentoot-errors"
@@ -46,7 +48,9 @@
   :long-description
   #.(uiop:read-file-string
      (uiop:subpathname *load-pathname* "README.md"))
-  :in-order-to ((test-op (test-op "booker/test"))))
+  :in-order-to ((test-op (test-op "booker/test")))
+  :perform (load-op :after (o c)
+                    (uiop:symbol-call :booker :load-config)))
 
 (defsystem "booker/test"
   :author "Sebastian Christ <rudolfo.christ@pm.me>"

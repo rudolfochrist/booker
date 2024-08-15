@@ -12,16 +12,80 @@
    #:delete-bookmark
    #:create-bookmark
    #:search-bookmarks
-   #:find-bookmark-with-body))
+   #:find-bookmark-with-body
+   #:migrate
+   #:status
+   #:new-migration))
 
 (in-package #:booker/db)
 
 (defvar *dbi-pool*
   (anypool:make-pool :name "dbi-connections"
                      :connector (lambda ()
-                                  (dbi:connect :sqlite3 :database-name (booker:root "db/data.db")))
+                                  (dbi:connect :sqlite3 :database-name booker::*database-name*))
                      :disconnector #'dbi:disconnect
                      :ping #'dbi:ping))
+
+(defparameter *emacsclient-exec* "/Applications/MacPorts/Emacs.app/Contents/MacOS/bin/emacsclient")
+
+(defun get-last-migration ()
+  (anypool:with-connection (conn *dbi-pool*)
+    (let ((datafly:*connection* conn))
+      (datafly:retrieve-one
+       (select (:id :kind :description :applied)
+         (from :migration)
+         (order-by (:desc :id))
+         (limit 1))))))
+
+(defun dump-schema ()
+  (with-open-file (fd (booker::root "db/schema.sql") :direction :output :if-exists :supersede)
+    (uiop:run-program (list "sqlite3" booker::*database-name* ".schema") :output fd)
+    (let* ((last-migration (get-last-migration)))
+      (format fd "~%-- cl-migration schema migrations~%~
+INSERT INTO migration (id, kind, description, applied) VALUES (~A, '~A', '~A', '~A');~%"
+              (getf last-migration :id)
+              (getf last-migration :kind)
+              (getf last-migration :description)
+              (getf last-migration :applied)))))
+
+(defun migrate ()
+  (anypool:with-connection (conn *dbi-pool*)
+    (let* ((provider (migratum.provider.local-path:make-provider
+                      (list (asdf:system-relative-pathname "booker" "db/migrations/"))))
+           (driver (migratum.driver.dbi:make-driver provider conn)))
+      (migratum:provider-init provider)
+      (migratum:driver-init driver)
+      (unwind-protect (migratum:apply-pending driver)
+        (migratum:provider-shutdown provider)
+        (migratum:driver-shutdown driver))
+      (dump-schema)
+      (format t "~&Migration finished."))))
+
+(defun status ()
+  (anypool:with-connection (conn *dbi-pool*)
+    (let* ((provider (migratum.provider.local-path:make-provider
+                      (list (asdf:system-relative-pathname "booker" "db/migrations/"))))
+           (driver (migratum.driver.dbi:make-driver provider conn)))
+      (migratum:provider-init provider)
+      (migratum:driver-init driver)
+      (unwind-protect (migratum:display-pending driver)
+        (migratum:provider-shutdown provider)
+        (migratum:driver-shutdown driver)))))
+
+(defun new-migration (description &key (kind :sql) (open-emacs-p t))
+  (anypool:with-connection (conn *dbi-pool*)
+    (let* ((migration-id (migratum:make-migration-id))
+           (provider (migratum.provider.local-path:make-provider
+                      (list (asdf:system-relative-pathname "booker" "db/migrations/")))))
+      (migratum:provider-init provider)
+      ;; migratum requires a down migartion script, but we want only forward migrations
+      ;; so we create a dummy
+      (migratum:provider-create-migration :down kind provider migration-id description "-- DUMMY: We want forward migrations only!")
+      (let ((path (namestring (migratum.provider.local-path:migration-up-script-path
+                               (migratum:provider-create-migration :up kind provider migration-id description "")))))
+        (if open-emacs-p
+            (uiop:launch-program (list *emacsclient-exec* "-n" path))
+            path)))))
 
 ;;; data api
 

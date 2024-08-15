@@ -2,36 +2,6 @@
 
 # see https://github.com/adriancooney/Taskfile
 
-env="${APP_ENV:-development}"
-
-if [[ -e "config/${env}.env" ]]
-then
-    . "config/${env}.env"
-else
-    echo "Please add a configuration file: config/${env}.env"
-    exit 1
-fi
-
-function db:create() {
-    dbmate --url "${DATABASE_URL}" create
-}
-
-function db:drop() {
-    dbmate --url "${DATABASE_URL}" drop
-}
-
-function db:migrate() {
-    dbmate --url "${DATABASE_URL}" up
-}
-
-function db:status() {
-    dbmate --url "${DATABASE_URL}" status
-}
-
-function db:load() {
-    dbmate --url "${DATABASE_URL}" load
-}
-
 function start() {
     sbcl --no-userinit --load init.lisp
 }
@@ -39,10 +9,6 @@ function start() {
 function tests() {
     sbcl --non-interactive --no-userinit --load init.lisp \
          --eval '(asdf:test-system "booker")'
-}
-
-function dbconsole() {
-    psql -U "${DB_USERNAME}" "${DB_DATABASE}"
 }
 
 function clean() {
@@ -58,7 +24,7 @@ function deps:install() {
     echo "Preloading systems."
     sbcl --non-interactive --no-userinit \
          --load init.lisp \
-         --eval "(asdf:load-system \"${system_name}\" :force t)" \
+         --eval "(asdf:load-system \"${system_name}\" :force :all)" \
          --eval '(uiop:quit)'
 }
 
