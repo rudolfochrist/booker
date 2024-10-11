@@ -14,13 +14,8 @@
   :depends-on ((:require "uiop")
                "alexandria"
                "hunchentoot"
-               "dbd-sqlite3"
-               "cl-dbi"
-               "datafly"
-               "anypool"
-               "cl-migratum"
-               "cl-migratum.provider.local-path"
-               "cl-migratum.driver.dbi"
+               "jasql.sqlite"
+
                "ironclad"
                "myway"
                "hunchentoot-errors"
@@ -37,6 +32,8 @@
                              (:file "routing")
                              (:file "views")
                              (:file "server")))
+               (:module "sql"
+                :components ((:static-file "queries.sql")))
                (:module "app"
                 :components ((:file "db")
                              (:file "controllers")))

@@ -13,7 +13,7 @@
 ;;; config variables
 (defvar *protect-against-forgery* t)
 (defvar *forgery-protection-origin-check* t)
-(defvar *env* "development")
+(defvar *env* (or (uiop:getenvp "APP_ENV") "development"))
 (defvar *name* (first (last (pathname-directory (uiop:getcwd)))))
 (defvar *address* "127.0.0.1")
 (defvar *port* 5000)
@@ -21,10 +21,6 @@
 
 ;;; unbound -> user is forced to set theses in env-config file
 (defvar *secret-key-base*)
-(defvar *database-name*)
-(defvar *database-host*)
-(defvar *databaseb-username*)
-(defvar *database-password*)
 
 ;;; helpers
 (defun load-config (&optional env)
