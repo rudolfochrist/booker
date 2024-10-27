@@ -4,22 +4,37 @@
 
 (in-package #:booker)
 
-;;; root
-(defvar *root* (uiop:getcwd))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  ;;; root
+  (defvar *root* (uiop:getcwd))
+  (defun root (path)
+    (merge-pathnames path *root*))
 
-(defun root (path)
-  (merge-pathnames path *root*))
+  (defun load-dotenv ()
+    (let ((env-file (root ".env")))
+      (when (probe-file env-file)
+        (with-open-file (in env-file)
+          (loop for line = (read-line in nil nil)
+                while line
+                if (> (length line) 0)
+                  do (let ((pos (position #\= line :test #'char=)))
+                       (when pos
+                         (setf (uiop:getenv (subseq line 0 pos))
+                               (subseq line (1+ pos)))))
+                finally (return t))))))
+  (load-dotenv))
 
 ;;; config variables
 (defvar *protect-against-forgery* t)
 (defvar *forgery-protection-origin-check* t)
 (defvar *env* (or (uiop:getenvp "APP_ENV") "development"))
 (defvar *name* (first (last (pathname-directory (uiop:getcwd)))))
-(defvar *port* 5000)
+(defvar *port* (or (uiop:getenvp "APP_PORT") 5000))
 (defvar *config-path* (root "config/"))
 
 ;;; unbound -> user is forced to set theses in env-config file
-(defvar *secret-key-base*)
+(defvar *secret-key-base* (or (uiop:getenv "SECRET_KEY_BASE")
+                              (error "Secret Key Base is missing! ~%Please set SECRET_KEY_BASE either as environment variable or in .env file.")))
 
 ;;; helpers
 (defun load-config (&optional env)
