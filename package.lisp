@@ -9,8 +9,6 @@
    (#:jzon :com.inuoe.jzon))
   (:import-from :access
                 #:access)
-  (:import-from :booker/db
-                #:*db*)
   (:export
    #:root
    #:initialize-application

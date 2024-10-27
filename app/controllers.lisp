@@ -4,18 +4,10 @@
 
 (in-package #:booker)
 
-;;; views
-(djula:add-template-directory (asdf:system-relative-pathname "booker" "app/views/"))
-(defparameter +up.html+ (djula:compile-template* "up.html"))
-(defparameter +bookmarks-index.html+ (djula:compile-template* "bookmarks-index.html"))
-(defparameter +bookmarks-show.html+ (djula:compile-template* "bookmarks-show.html"))
-
-(defun render (view &key status arguments destination)
+(defun render (view &rest arguments &key status &allow-other-keys)
   (when status
     (setf (ht:return-code*) status))
-  (apply #'djula:render-template* view destination
-         :flash (ht:session-value :flash)
-         arguments))
+  (apply view :flash (ht:session-value :flash) arguments))
 
 (defun flash (type message)
   (let* ((session (ht:start-session))
@@ -49,7 +41,8 @@
      (jzon:stringify
       (alexandria:plist-hash-table (list :application :ok))))
     (t
-     (render +up.html+))))
+     (with-page (:title "Heartbeat")
+       (:p "Site is running")))))
 
 (ht:define-easy-handler (home :uri "/")
     ()
@@ -64,7 +57,7 @@
 (ht:define-easy-handler (bookmarks-index :uri (match :get "/bookmarks/?"))
     ()
   (let ((bookmarks (apply-search-filter (params :q))))
-    (render +bookmarks-index.html+ :arguments (list :bookmarks bookmarks))))
+    (render 'view/bookmarks-index :bookmarks bookmarks)))
 
 (defun retrieve-bookmark-content (url)
   (when (or (null url)
@@ -108,7 +101,7 @@
 (ht:define-easy-handler (bookmarks-show :uri (match :get "/bookmarks/:id/?"))
     ()
   (uiop:if-let ((bookmark (booker/db:find-bookmark-with-body *db* :id (params :id))))
-    (render +bookmarks-show.html+ :arguments (list :bookmark bookmark))
+    (render 'view/bookmarks-show :bookmark bookmark)
     (format nil "~A" (setf (ht:return-code*) ht:+http-not-found+))))
 
 

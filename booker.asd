@@ -15,7 +15,6 @@
                "alexandria"
                "hunchentoot"
                "jasql.sqlite"
-
                "ironclad"
                "myway"
                "hunchentoot-errors"
@@ -23,7 +22,7 @@
                "plump"
                "dexador"
                "access"
-               "djula")
+               "spinneret")
   :components ((:file "package")
                (:module "lib"
                 :components ((:file "config")
@@ -36,11 +35,8 @@
                 :components ((:static-file "queries.sql")))
                (:module "app"
                 :components ((:file "db")
-                             (:file "controllers")))
-               (:module "app/views"
-                :components ((:static-file "layout.html")
-                             (:static-file "up.html")
-                             (:static-file "bookmarks-index.html"))))
+                             (:file "views")
+                             (:file "controllers"))))
   :description "A bookmark managing application."
   :long-description
   #.(uiop:read-file-string
@@ -65,5 +61,4 @@
                     (unless (uiop:symbol-call :fiveam :run! :booker/test)
                       #+(not (or :swank :slynk))
                       (uiop:quit 1))))
-
 

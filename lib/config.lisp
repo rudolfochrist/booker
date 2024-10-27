@@ -15,7 +15,6 @@
 (defvar *forgery-protection-origin-check* t)
 (defvar *env* (or (uiop:getenvp "APP_ENV") "development"))
 (defvar *name* (first (last (pathname-directory (uiop:getcwd)))))
-(defvar *address* "127.0.0.1")
 (defvar *port* 5000)
 (defvar *config-path* (root "config/"))
 
@@ -28,7 +27,7 @@
                                                    :name (or env *env*)
                                                    :type "lisp"))))
     (progn
-      (format t "~&Loading config: ~A" config)
+      (format t "~&Loading config: ~A~%" config)
       (load config))))
 
 (defun secure-random-hex (&optional (n 16))

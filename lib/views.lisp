@@ -4,17 +4,16 @@
 
 (in-package #:booker)
 
-(djula:def-tag-compiler :csrf-meta-tags ()
-  (lambda (stream)
-    (let ((csrf-token (form-authenticity-token)))
-      (format stream "~
-<meta name=\"csrf-param\" content=\"authenticity_token\" />
-~8@T<meta name=\"csrf-token\" content=\"~A\" />"
-              csrf-token))))
+(defmacro csrf-meta-tags ()
+  `(spinneret:with-html-string
+     (:meta :name "csrf-param" :content "authenticity_token")
+     (:meta :name "csrf-token" :content (form-authenticity-token))))
 
-(djula:def-tag-compiler :form-authenticity-token ()
-  (lambda (stream)
-    (let ((auth-token (form-authenticity-token)))
-      (format stream "~
-<input type=\"hidden\" name=\"authenticity_token\" value=\"~A\" autocomplete=\"off\"/>"
-              auth-token))))
+
+(defmacro hidden-authenticity-token ()
+  `(spinneret:with-html-string
+     (:input :type "hidden"
+             :name "authenticity_token"
+             :value (form-authenticity-token)
+             :autocomplete "off")))
+
