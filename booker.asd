@@ -14,14 +14,13 @@
   :depends-on ((:require "uiop")
                "alexandria"
                "hunchentoot"
-               "jasql.sqlite"
+               "jasql.postgres"
                "ironclad"
                "myway"
                "hunchentoot-errors"
                "com.inuoe.jzon"
                "plump"
                "dexador"
-               "access"
                "spinneret")
   :components ((:file "package")
                (:module "lib"
