@@ -36,6 +36,10 @@
 (defvar *secret-key-base* (or (uiop:getenv "SECRET_KEY_BASE")
                               (error "Secret Key Base is missing! ~%Please set SECRET_KEY_BASE either as environment variable or in .env file.")))
 
+;;; database
+(defparameter *reshape-schema-query* (or (uiop:getenvp "RESHAPE_SCHEMA_QUERY")
+                                         (error "Schema query is missing.")))
+
 ;;; helpers
 (defun load-config (&optional env)
   (uiop:if-let ((config (probe-file (make-pathname :defaults *config-path*

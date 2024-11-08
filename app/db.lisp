@@ -4,11 +4,11 @@
 
 (in-package #:booker)
 
-(defvar *db* (jasql.postgres:make-handle
-              :database (format nil "booker_~A" *env*)
-              :username "booker"
-              :host :unix
-              :search-path "migration_202410311730363041_initial"))
+(defparameter *db* (jasql.postgres:make-handle
+                    :database (format nil "booker_~A" *env*)
+                    :username "booker"
+                    :host :unix
+                    :search-path *reshape-schema-query*))
 
 (defpackage #:booker/db
   (:use :cl))
