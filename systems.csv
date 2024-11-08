@@ -37,9 +37,9 @@ usocket, ghcr.io/ocicl/usocket@sha256:015b8cdb91cdc25aefd08054e8ede6a5d054d10bc8
 usocket-test, ghcr.io/ocicl/usocket@sha256:015b8cdb91cdc25aefd08054e8ede6a5d054d10bc87916904cf0d0670b3f4a68, usocket-0.8.8/usocket-test.asd
 usocket-server, ghcr.io/ocicl/usocket@sha256:015b8cdb91cdc25aefd08054e8ede6a5d054d10bc87916904cf0d0670b3f4a68, usocket-0.8.8/usocket-server.asd
 split-sequence, ghcr.io/ocicl/split-sequence@sha256:3a37662eedd99c42995587b9d443c4631f25c4c523091bcca31a27b880585b8e, split-sequence-2.0.1/split-sequence.asd
-jasql.sqlite, ghcr.io/lispmirror/jasql.postgres@sha256:29dc774f0be8fff18dc08b820dffcc6f70e305fee96b336783a0d801fcd49a5e, jasql-20240927-0.10/jasql.sqlite.asd
-jasql.postgres, ghcr.io/lispmirror/jasql.postgres@sha256:29dc774f0be8fff18dc08b820dffcc6f70e305fee96b336783a0d801fcd49a5e, jasql-20240927-0.10/jasql.postgres.asd
-jasql, ghcr.io/lispmirror/jasql.postgres@sha256:29dc774f0be8fff18dc08b820dffcc6f70e305fee96b336783a0d801fcd49a5e, jasql-20240927-0.10/jasql.asd
+jasql.sqlite, ghcr.io/lispmirror/jasql@sha256:2657818836c556cdcb102f89972f33c5ba1dc6990d067d3279448d847af7e415, jasql-20241108-0.11/jasql.sqlite.asd
+jasql.postgres, ghcr.io/lispmirror/jasql@sha256:2657818836c556cdcb102f89972f33c5ba1dc6990d067d3279448d847af7e415, jasql-20241108-0.11/jasql.postgres.asd
+jasql, ghcr.io/lispmirror/jasql@sha256:2657818836c556cdcb102f89972f33c5ba1dc6990d067d3279448d847af7e415, jasql-20241108-0.11/jasql.asd
 simple-date, ghcr.io/ocicl/postmodern@sha256:1575078171b7d86645e492318b5917a578371d1125786f4f43101169e4857cdd, postmodern-1.33.11/simple-date.asd
 s-sql, ghcr.io/ocicl/postmodern@sha256:1575078171b7d86645e492318b5917a578371d1125786f4f43101169e4857cdd, postmodern-1.33.11/s-sql.asd
 postmodern, ghcr.io/ocicl/postmodern@sha256:1575078171b7d86645e492318b5917a578371d1125786f4f43101169e4857cdd, postmodern-1.33.11/postmodern.asd

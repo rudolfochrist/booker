@@ -17,17 +17,20 @@ WHERE id = :id
 ;
 
 -- name: search-bookmarks
-SELECT id, url, title
+SELECT id, url, title,
+       ts_rank(search, websearch_to_tsquery('english', :q)) +
+       ts_rank(search, websearch_to_tsquery('simple', :q)) AS rank
 FROM bookmarks
-WHERE id IN (SELECT rowid
-             FROM bookmarks_fts
-             WHERE bookmarks_fts MATCH :q)
+WHERE search @@ websearch_to_tsquery('english', :q)
+OR search @@ websearch_to_tsquery('simple', :q)
+ORDER by rank DESC
 ;
 
 -- name: create-bookmark<!
-INSERT INTO bookmarks(id, title, url, body)
+INSERT INTO bookmarks(title, url, body)
 VALUES
-(:id, :title, :url, :body)
+(:title, :url, :body)
+RETURNING id
 ;
 
 -- name: update-bookmark!

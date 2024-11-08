@@ -4,7 +4,11 @@
 
 (in-package #:booker)
 
-(defvar *db* (jasql.sqlite:make-handle :path "db/data.db"))
+(defvar *db* (jasql.postgres:make-handle
+              :database (format nil "booker_~A" *env*)
+              :username "booker"
+              :host :unix
+              :search-path "migration_202410311730363041_initial"))
 
 (defpackage #:booker/db
   (:use :cl))
