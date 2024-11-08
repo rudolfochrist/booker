@@ -19,7 +19,7 @@
                    (:main
                     ,@body))))))
 
-(defun view/bookmarks-index (&key flash bookmarks &allow-other-keys)
+(defun view/bookmarks-index (&key flash bookmarks search-query &allow-other-keys)
   (with-page (:title "Bookmarks")
     (dolist (f flash)
       (:div :class (format nil "alert alert-~A" (first f))
@@ -35,7 +35,7 @@
     (:div :class "mt-4"
           (:form :method "GET" :action "/bookmarks" :class "row"
                  (:div :class "col"
-                       (:input :class "form-control" :name "q" :type "text" :value ""))
+                       (:input :class "form-control" :name "q" :type "text" :value (or search-query "")))
                  (:div :class "col"
                        (:button :class "btn btn-primary" :type "submit" "Search")
                        (:a :class "btn btn-secondary" :href "/bookmarks" "Reset"))))

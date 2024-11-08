@@ -57,7 +57,7 @@
 (ht:define-easy-handler (bookmarks-index :uri (match :get "/bookmarks/?"))
     ()
   (let ((bookmarks (apply-search-filter (params :q))))
-    (render 'view/bookmarks-index :bookmarks bookmarks)))
+    (render 'view/bookmarks-index :bookmarks bookmarks :search-query (params :q))))
 
 (defun retrieve-bookmark-content (url)
   (when (or (null url)
