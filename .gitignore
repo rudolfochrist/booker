@@ -7,3 +7,4 @@
 /booker.image
 /systems/
 .env
+*.image
