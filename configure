@@ -311,6 +311,14 @@ else
     echo "no"
 fi
 
+echo "Checking for ocicl... \c"
+if lc_ocicl="$(command -v ocicl)"; then
+    echo "$lc_ocicl"
+else
+    printf "\nRequired 'ocicl' not found\n"
+    exit 1
+fi
+
 echo "Checking for CL compiler... \c"
 if test -z "$CL"; then
     if lc_sbcl="$(command -v sbcl)"; then
