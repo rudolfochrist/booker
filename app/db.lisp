@@ -5,9 +5,14 @@
 (in-package #:booker)
 
 (defparameter *db* (jasql.postgres:make-handle
-                    :database (format nil "booker_~A" *env*)
-                    :username "booker"
-                    :host :unix
+                    :database (or (uiop:getenvp "DATABASE_NAME")
+                                  (format nil "booker_~A" *env*))
+                    :username (or (uiop:getenvp "DATABASE_USERNAME")
+                                  "booker")
+                    :host (or (uiop:getenvp "DATABASE_HOST")
+                              :unix)
+                    :port (or (uiop:getenvp "DATABASE_PORT")
+                              5432)
                     :search-path *reshape-schema-query*))
 
 (defpackage #:booker/db
