@@ -11,9 +11,8 @@
                                   "booker")
                     :host (or (uiop:getenvp "DATABASE_HOST")
                               :unix)
-                    :port (or (uiop:getenvp "DATABASE_PORT")
-                              5432)
-                    :search-path *reshape-schema-query*))
+                    :port (or (parse-integer (uiop:getenvp "DATABASE_PORT"))
+                              5432)))
 
 (defpackage #:booker/db
   (:use :cl))
