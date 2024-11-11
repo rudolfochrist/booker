@@ -61,3 +61,15 @@
                       #+(not (or :swank :slynk))
                       (uiop:quit 1))))
 
+(defsystem "booker/image"
+  :build-operation image-op
+  :build-pathname "booker"
+  :description "Booker App Web Image"
+  :depends-on ("booker")
+  :components ((:file "image")))
+
+#+sb-core-compression
+(defmethod asdf:perform ((o asdf:image-op) (c asdf:system))
+  (uiop:dump-image (asdf:output-file o c)
+                   :compression t))
+
