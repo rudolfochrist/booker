@@ -1,0 +1,396 @@
+#!/bin/sh
+# Software configuration script inspired by GNU Autoconf
+
+
+PACKAGE_NAME=
+PACKAGE_VERSION="$(cat version)"
+
+count_files() { echo $#; }
+
+if test -z "$PACKAGE_NAME" && test "$(count_files ./*.asd)" -gt 1; then
+    echo "Multiple asd files found. Please set PACKAGE_NAME manually."
+    exit 1
+elif test -z "$PACKAGE_NAME"; then
+    lc_asd_file="$(basename ./*.asd)"
+    PACKAGE_NAME="${lc_asd_file%.asd}"
+fi
+
+LC_VERSION=0.1.0
+
+# INSTALLATION DIRECTORIES
+
+srcdir="$(dirname "$0")"
+lc_default_prefix=/usr/local
+prefix="$lc_default_prefix"
+exec_prefix='${prefix}'
+bindir='${exec_prefix}/bin'
+sbindir='${exec_prefix}/sbin/'
+libexecdir='${exec_prefix}/libexec'
+libdir='${exec_prefix}/lib'
+includedir='${prefix}/include'
+datarootdir='${prefix}/share'
+datadir='${datarootdir}'
+docdir='${datarootdir}/doc/${PACKAGE_NAME}'
+infodir='${datarootdir}/info'
+mandir='${datarootdir}/man'
+sysconfdir='${prefix}/etc/'
+sharedstatedir='${prefix}/com'
+localstatedir='${prefix}/var'
+runstatedir='${prefix}/run/var'
+commonlispdir='${datarootdir}/common-lisp/source'
+
+# OPTIONS PARSING
+lc_prev=
+for lc_option
+do
+    # checking if previous options has an argument
+    if test -n "$lc_prev"; then
+        eval $lc_prev=\$lc_option
+        lc_prev=
+        continue
+    fi
+
+    # split --foo=bar to --foo bar to assign lc_prev and lc_optarg
+    case "$lc_option" in
+        *=?*) lc_optarg="${lc_option#*=}" ;;
+        *=) lc_optarg= ;;
+        *) lc_optarg=yes ;;     # default for optional features/packages
+    esac
+
+    case "$lc_option" in
+        --srcdir) lc_prev=srcdir ;;
+        --srcdir=*) srcdir="$lc_optarg" ;;
+
+        --prefix) lc_prev=prefix ;;
+        --prefix=*) prefix="$lc_optarg" ;;
+
+        --exec-prefix) lc_prev=exec_prefix ;;
+        --exec-prefix=*) exec_prefix="$lc_optarg" ;;
+
+        --bindir) lc_prev=bindir ;;
+        --bindir=*) bindir="$lc_optarg" ;;
+
+        --sbindir) lc_prev=sbindir ;;
+        --sbindir=*) sbindir="$lc_optarg" ;;
+
+        --libexecdir) lc_prev=libexecdir ;;
+        --libexecdir=*) libexecdir="$lc_optarg" ;;
+
+        --libdir) lc_prev=libdir ;;
+        --libdir=*) libdir="$lc_optarg" ;;
+
+        --includedir) lc_prev=includedir ;;
+        --includedir=*) includedir="$lc_optarg" ;;
+
+        --datarootdir) lc_prev=datarootdir ;;
+        --datarootdir=*) datarootdir="$lc_optarg" ;;
+
+        --datadir) lc_prev=datadir ;;
+        --datadir=*) datadir="$lc_optarg" ;;
+
+        --docdir) lc_prev=docdir ;;
+        --docdir=*) docdir="$lc_optarg" ;;
+
+        --infodir) lc_prev=infodir ;;
+        --infodir=*) infodir="$lc_optarg" ;;
+
+        --mandir) lc_prev=mandir ;;
+        --mandir=*) mandir="lc_optarg" ;;
+
+        --sysconfdir) lc_prev=sysconfdir ;;
+        --sysconfdir=*) sysconfdir="$lc_optarg" ;;
+
+        --sharedstatedir) lc_prev=sharedstatedir ;;
+        --sharedstatedir=*) sharedstatedir="$lc_optarg" ;;
+
+        --localstatedir) lc_prev=localstatedir ;;
+        --localstatedir=*) localstatedir="$lc_optarg" ;;
+
+        --runstatedir) lc_prev=runstatedir ;;
+        --runstatedir=*) runstatedir="$lc_optarg" ;;
+
+        --commonlispdir) lc_prev=commonlispdir ;;
+        --commonlispdir=*) commonlispdir="$lc_optarg" ;;
+
+
+        --with-*)
+            lc_withopt="${lc_option#--with-}"
+            lc_withopt="${lc_withopt%=*}"
+            eval with_$lc_withopt="\$lc_optarg"
+            ;;
+        --without-*)
+            lc_withopt="${lc_option#--without-}"
+            eval with_$lc_withopt=no
+            ;;
+
+        --enable-*)
+            lc_enableopt="${lc_option#--enable-}"
+            lc_enableopt="${lc_enableopt%=*}"
+            eval enable_$lc_enableopt="\$lc_optarg"
+            ;;
+        --disable-*)
+            lc_enableopt="${lc_option#--disable-}"
+            eval enable_$lc_enableopt=no
+            ;;
+
+        -h|--help) lc_show_help=yes ;;
+        -v|--version) echo "configure script $0 $LC_VERSION" && exit 0 ;;
+
+        -*)
+            echo "Unrecognized options: $lc_option
+Use $0 --help for more information"
+            ;;
+        *=*)
+            lc_envvar="${lc_option%=*}"
+            eval $lc_envvar="$lc_optarg"
+            export lc_envvar
+            ;;
+        *)
+            echo "Something went wrong!
+Perhaps you're missing an '=' with one of the options
+Use $0 --help for more information"
+            exit 1
+            ;;
+    esac
+done
+
+if test -n "$lc_prev"; then
+    echo "Missing argument to --$lc_prev"
+    exit 1
+fi
+
+for lc_dir in prefix exec_prefix bindir sbindir \
+                     libexecdir libdir includedir datarootdir \
+                     datadir docdir infodir mandir sysconfdir sharedstatedir \
+                     localstatedir runstatedir commonlispdir
+do
+    eval lc_dirval=\$$lc_dir
+    # remove multiple and trailing slashes
+    lc_dirval="$(echo "$lc_dirval" | tr -s /)"
+    lc_dirval="${lc_dirval%/}"
+    # check for absolute directory name
+    case "$lc_dirval" in
+        /*|\$*) ;;              # do nothing if lc_dirval aready starts with a / or $ (like in ${prefix})...
+        *)
+            echo "Absolute directory name required for --${lc_dir}"
+            exit 1
+            ;;
+    esac
+    eval $lc_dir="$lc_dirval"
+done
+
+# USAGE
+if test -n "${lc_show_help+y}"; then
+    cat <<EOF
+'configure' configures ${PACKAGE_NAME} ${PACKAGE_VERSION}
+
+Usage: $0 [OPTION].. [VAR=VALUE]...
+
+To assign environment variables (e.g., CC, CFLAGS...), specify them as
+VAR=VALUE.  See below for descriptions of some of the useful variables.
+
+Defaults for the options are specified in brackets.
+
+Configuration:
+  -h, --help              display this help and exit
+  -V, --version           display version information and exit
+      --srcdir=DIR        find the sources in DIR
+
+Installation directories:
+  --prefix=PREFIX         install architecture-independent files in PREFIX
+                          [${lc_default_prefix}]
+  --exec-prefix=EPREFIX   install architecture-dependent files in EPREFIX
+                          [PREFIX]
+
+By default, 'make install' will install all the files in
+'${lc_default_prefix}/bin', '${lc_default_prefix}/lib' etc.  You can specify
+an installation prefix other than '${lc_default_prefix}' using '--prefix',
+for instance '--prefix=\$HOME'.
+
+For better control, use the options below.
+
+Fine tuning of the installation directories:
+  --bindir=DIR            user executables [EPREFIX/bin]
+  --sbindir=DIR           system admin executables [EPREFIX/sbin]
+  --libexecdir=DIR        program executables [EPREFIX/libexec]
+  --sysconfdir=DIR        read-only single-machine data [PREFIX/etc]
+  --sharedstatedir=DIR    modifiable architecture-independent data [PREFIX/com]
+  --localstatedir=DIR     modifiable single-machine data [PREFIX/var]
+  --runstatedir=DIR       modifiable per-process data [LOCALSTATEDIR/run]
+  --libdir=DIR            object code libraries [EPREFIX/lib]
+  --includedir=DIR        C header files [PREFIX/include]
+  --datarootdir=DIR       read-only arch.-independent data root [PREFIX/share]
+  --datadir=DIR           read-only architecture-independent data [DATAROOTDIR]
+  --infodir=DIR           info documentation [DATAROOTDIR/info]
+  --docdir=DIR            documentation root [DATAROOTDIR/doc/jupiter]
+  --commonlispdir=DIR     Common Lisp source files [DATAROOTDIR/common-lisp/source]
+
+EOF
+
+    # optional features doc
+    cat <<EOF
+Optional Features:
+  --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
+  --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+
+
+EOF
+    # optional packages doc
+    cat <<EOF
+Optional Packages:
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+
+EOF
+    # env var doc
+    cat <<EOF
+Some influential environment variables:
+  CL                     Common Lisp compiler program
+  CLFLAGS                Common Lisp compiler flags
+
+EOF
+    # add issues url to help
+    lc_bugsurl="$(grep ':bug-tracker' "${PACKAGE_NAME}".asd | cut -d'"' -f2)"
+    echo "Report bugs to <${lc_bugsurl}>."
+
+    exit 0
+else
+    # SAVE STATE if we don't show help
+    cat >config.status <<EOF
+#!/bin/sh
+$0 $@
+EOF
+    chmod +x config.status
+fi
+
+# ENVIRONMENT VARIABLES
+
+# CHECKS FOR PROGRAMS
+
+echo "Checking for mkdir... \c"
+if lc_mkdir="$(command -v gmkdir || command -v mkdir)"; then
+    echo "$lc_mkdir"
+else
+    printf "\nRequired 'mkdir' not found\n"
+    exit 1
+fi
+
+echo "Checking for makeinfo... \c"
+if lc_makeinfo="$(command -v makeinfo)"; then
+    echo "$lc_makeinfo"
+else
+    echo "no"
+fi
+
+echo "Checking for install...\c"
+if lc_install="$(command -v ginstall || command -v install)"; then
+    echo "$lc_install"
+else
+    printf "\nRequired 'install' not found\n"
+    exit 1
+fi
+
+echo "Checking for git... \c"
+if lc_git="$(command -v git)"; then
+    echo "$lc_git"
+else
+    echo "no"
+fi
+
+echo "Checking for tar... \c"
+if lc_tar="$(command -v tar)"; then
+    echo "$lc_tar"
+else
+    echo "no"
+fi
+
+echo "Checking for gzip... \c"
+if lc_gzip="$(command -v gzip)"; then
+    echo "$lc_gzip"
+else
+    echo "no"
+fi
+
+echo "Checking for CL compiler... \c"
+if test -z "$CL"; then
+    if lc_sbcl="$(command -v sbcl)"; then
+        echo "$lc_sbcl"
+        CL="$lc_sbcl"
+        CLFLAGS="${CLFLAGS:---noinform --non-interactive --no-userinit}"
+    elif lc_ccl="$(command -v ccl || command -v ccl64)"; then
+        echo "$lc_ccl"
+        CL="$lc_ccl"
+        CLFLAGS="${CLFLAGS:--n -Q --batch}"
+    else
+        printf "\nNo Common Lisp compiler found\n"
+        exit 1
+    fi
+fi
+
+# OUTPUT
+
+echo "Creating config.mk"
+cat >config.mk <<EOF
+# config.mk generated by configure.
+
+PACKAGE_NAME = $PACKAGE_NAME
+PACKAGE_VERSION = $PACKAGE_VERSION
+PACKAGE_TARNAME = ${PACKAGE_NAME}-${PACKAGE_VERSION}
+
+SHELL = /bin/sh
+
+# INSTALLATION DIRECTORIES
+srcdir = $srcdir
+prefix = $prefix
+exec_prefix= $exec_prefix
+bindir = $bindir
+sbindir = $sbindir
+libexecdir = $libexecdir
+pkglibexecdir = \$(libexecdir)/\$(PACKAGE_NAME)
+libdir = $libdir
+pkglibdir = \$(libdir)/\$(PACKAGE_NAME)
+includedir = $includedir
+pkgincludedir = \$(includedir)/\$(PACKAGE_NAME)
+datarootdir = $datarootdir
+datadir = $datadir
+pkgdatadir = \$(datadir)/\$(PACKAGE_NAME)
+docdir = $docdir
+infodir = $infodir
+mandir = $mandir
+sysconfdir = $sysconfdir
+sharedstatedir = $sharedstatedir
+localstatedir = $localstatedir
+runstatedir = $runstatedir
+commonlispdir = $commonlispdir
+pkgcommonlispdir = \$(commonlispdir)/\$(PACKAGE_NAME)
+
+# PROGRAMS
+MKDIR_P = ${lc_mkdir} -p
+MAKEINFO = $lc_makeinfo
+INSTALL_PROGRAM = $lc_install
+INSTALL_DATA = \$(INSTALL_PROGRAM) -m 644
+GIT = $lc_git
+
+# CL
+CL = $CL
+CLFLAGS = $CLFLAGS
+
+EOF
+
+# ASDF SOURCE REGISTRY
+
+echo "Creating config.lisp"
+cat >config.lisp <<EOF
+#+sbcl (require 'sb-aclrepl)
+(require 'asdf)
+(asdf:initialize-source-registry
+ '(:source-registry
+   (:directory (:here))
+   (:tree (:here "vendor/"))
+   (:tree (:here "systems/"))
+   :inherit-configuration))
+
+EOF
+
+# OPTIONAL FEATURES AND PACKAGES
+

@@ -8,3 +8,6 @@
 /systems/
 .env
 *.image
+/config.status
+/config.lisp
+/config.mk
