@@ -29,7 +29,8 @@
 (defvar *forgery-protection-origin-check* t)
 (defvar *env* (or (uiop:getenvp "APP_ENV") "development"))
 (defvar *name* (first (last (pathname-directory (uiop:getcwd)))))
-(defvar *port* (or (uiop:getenvp "APP_PORT") 5000))
+(defvar *port* (or (parse-integer (uiop:getenvp "APP_PORT"))
+                   5000))
 (defvar *config-path* (root "config/"))
 
 ;;; unbound -> user is forced to set theses in env-config file
