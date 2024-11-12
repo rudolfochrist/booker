@@ -11,7 +11,8 @@
                                   "booker")
                     :host (or (uiop:getenvp "DATABASE_HOST")
                               :unix)
-                    :port (or (parse-integer (uiop:getenvp "DATABASE_PORT"))
+                    :port (or (and (uiop:getenvp "DATABASE_PORT")
+                                   (parse-integer (uiop:getenvp "DATABASE_PORT")))
                               5432)))
 
 (defpackage #:booker/db

@@ -10,7 +10,7 @@
 
 (defvar *app* nil)
 
-(defun initialize-application (&key name port reset)
+(defun initialize-application (&key name address port reset)
   (when (or (null *app*)
             reset)
     (setf *app* nil
@@ -24,6 +24,7 @@
                                    'development-acceptor
                                    'hunchentoot:easy-acceptor)
                                :name (setf *name* (or name *name*))
+                               :address (setf *address* (or address *address*))
                                :port (setf *port* (or port *port*))
                                :document-root (root "public/")
                                :error-template-directory (when (string/= *env* "development")
@@ -36,14 +37,12 @@
   (when (null *app*)
     (error "Application not initialized!"))
   (hunchentoot:start *app*)
-  (let ((address (or (hunchentoot:acceptor-address *app*)
-                     "0.0.0.0")))
-    (format t "~&Visit ~A://~A:~D~%"
-            (if (hunchentoot:ssl-p *app*) "https" "http")
-            address
-            (hunchentoot:acceptor-port *app*))
-    (values address
-            (hunchentoot:acceptor-port *app*))))
+  (format t "~&Visit ~A://~A:~D~%"
+          (if (hunchentoot:ssl-p *app*) "https" "http")
+          (hunchentoot:acceptor-address *app*)
+          (hunchentoot:acceptor-port *app*))
+  (values (hunchentoot:acceptor-address *app*)
+          (hunchentoot:acceptor-port *app*)))
 
 (defun stop-application ()
   (when *app*

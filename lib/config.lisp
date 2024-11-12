@@ -29,7 +29,10 @@
 (defvar *forgery-protection-origin-check* t)
 (defvar *env* (or (uiop:getenvp "APP_ENV") "development"))
 (defvar *name* (first (last (pathname-directory (uiop:getcwd)))))
-(defvar *port* (or (parse-integer (uiop:getenvp "APP_PORT"))
+(defvar *address* (or (uiop:getenvp "APP_ADDRESS")
+                      "localhost"))
+(defvar *port* (or (and (uiop:getenvp "APP_PORT")
+                        (parse-integer (uiop:getenvp "APP_PORT")))
                    5000))
 (defvar *config-path* (root "config/"))
 
