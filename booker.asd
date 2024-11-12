@@ -66,10 +66,19 @@
   :build-pathname "booker"
   :description "Booker App Web Image"
   :depends-on ("booker")
-  :components ((:file "image")))
+  :components ((:file "main")))
+
+(defsystem "booker/executable"
+  :build-operation program-op
+  :build-pathname "booker"
+  :entry-point "booker/main:main"
+  :description "Booker Executable"
+  :depends-on ("booker")
+  :components ((:file "main")))
 
 #+sb-core-compression
 (defmethod asdf:perform ((o asdf:image-op) (c asdf:system))
   (uiop:dump-image (asdf:output-file o c)
+                   #+enable-executable :executable #+enable-executable t
                    :compression t))
 

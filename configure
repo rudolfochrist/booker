@@ -222,7 +222,8 @@ Fine tuning of the installation directories:
   --datarootdir=DIR       read-only arch.-independent data root [PREFIX/share]
   --datadir=DIR           read-only architecture-independent data [DATAROOTDIR]
   --infodir=DIR           info documentation [DATAROOTDIR/info]
-  --docdir=DIR            documentation root [DATAROOTDIR/doc/jupiter]
+  --mandir=DIR            man documentation [DATAROOTDIR/man]
+  --docdir=DIR            documentation root [DATAROOTDIR/doc/${PACKAGE_NAME}]
   --commonlispdir=DIR     Common Lisp source files [DATAROOTDIR/common-lisp/source]
 
 EOF
@@ -232,7 +233,8 @@ EOF
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-
+  --disable-image         do not include image dumping facilities
+  --enable-executable     include facilities to build executables
 
 EOF
     # optional packages doc
@@ -401,4 +403,24 @@ cat >config.lisp <<EOF
 EOF
 
 # OPTIONAL FEATURES AND PACKAGES
+if test ${enable_image+y}
+then
+    want_image="$enable_image"
+else
+    want_image=yes
+fi
+if test "x$want_image" = "xyes"
+then
+    echo '(push :enable-image *features*)' >> config.lisp
+fi
 
+if test ${enable_executable+y}
+then
+    want_executable="$enable_executable"
+else
+    want_executable=no
+fi
+if test "x$enable_executable" = "xyes"
+then
+    echo '(push :enable-executable *features*)' >> config.lisp
+fi

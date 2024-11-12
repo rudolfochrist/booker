@@ -2,15 +2,21 @@
 
 include config.mk
 
-IMAGE_NAME = $(PACKAGE_NAME)
-
 LISPSRCS = $(shell find . -name "*.lisp")
 ASDSRCS = $(wildcard *.asd)
 
-all: $(IMAGE_NAME).image
+all: $(PACKAGE_NAME)
 
-$(IMAGE_NAME).image: $(ASDSRCS) $(LISPSRCS) version config.lisp
-	-rm -f $(IMAGE_NAME).image
+$(PACKAGE_NAME): $(ASDSRCS) $(LISPSRCS) version config.lisp
+	-rm -f $(PACKAGE_NAME)
+	$(CL) $(CLFLAGS) \
+	--load config.lisp \
+	--eval '(asdf:load-system "$(PACKAGE_NAME)" :force t)' \
+	--eval '(gc :full t)' \
+	--eval '(asdf:make "$(PACKAGE_NAME)/executable")'
+
+$(PACKAGE_NAME).image: $(ASDSRCS) $(LISPSRCS) version config.lisp
+	-rm -f $(PACKAGE_NAME).image
 	$(CL) $(CLFLAGS) \
 	--load config.lisp \
 	--eval '(asdf:load-system "$(PACKAGE_NAME)" :force t)' \
@@ -24,7 +30,8 @@ check:
 clean:
 	-find . -name "*.fasl" -delete
 	-rm -f $(PACKAGE_NAME).info
-	-rm -f $(IMAGE_NAME).image
+	-rm -f $(PACKAGE_NAME).image
+	-rm -f $(PACKAGE_NAME)
 
 distclean: clean
 	-rm -f config.mk config.status config.lisp
