@@ -24,13 +24,21 @@
                 finally (return t))))))
   (load-dotenv))
 
+(defun determine-server-address ()
+  (uiop:if-let ((address (uiop:getenvp "APP_ADDRESS")))
+    (if (uiop:string-suffix-p address ".sock")
+        ;; unix domain socket
+        (merge-pathnames address)
+        ;; network
+        address)
+    "localhost"))
+
 ;;; config variables
 (defvar *protect-against-forgery* t)
 (defvar *forgery-protection-origin-check* t)
 (defvar *env* (or (uiop:getenvp "APP_ENV") "development"))
 (defvar *name* (first (last (pathname-directory (uiop:getcwd)))))
-(defvar *address* (or (uiop:getenvp "APP_ADDRESS")
-                      "localhost"))
+(defvar *address* (determine-server-address))
 (defvar *port* (or (and (uiop:getenvp "APP_PORT")
                         (parse-integer (uiop:getenvp "APP_PORT")))
                    5000))

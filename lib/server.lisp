@@ -24,7 +24,7 @@
                                    'development-acceptor
                                    'hunchentoot:easy-acceptor)
                                :name (setf *name* (or name *name*))
-                               :address (setf *address* (or address *address*))
+                               :address (root (setf *address* (or address *address*)))
                                :port (setf *port* (or port *port*))
                                :document-root (root "public/")
                                :error-template-directory (when (string/= *env* "development")
