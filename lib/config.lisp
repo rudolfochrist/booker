@@ -30,32 +30,22 @@
         ;; unix domain socket
         (merge-pathnames address)
         ;; network
-        address)
-    "localhost"))
+        (usocket:get-host-by-name address))
+    "127.0.0.1"))
 
 ;;; config variables
-(defvar *protect-against-forgery* t)
-(defvar *forgery-protection-origin-check* t)
-(defvar *env* (or (uiop:getenvp "APP_ENV") "development"))
-(defvar *name* (first (last (pathname-directory (uiop:getcwd)))))
-(defvar *address* (determine-server-address))
-(defvar *port* (or (and (uiop:getenvp "APP_PORT")
-                        (parse-integer (uiop:getenvp "APP_PORT")))
-                   5000))
-(defvar *config-path* (root "config/"))
+(defparameter *protect-against-forgery* t)
+(defparameter *forgery-protection-origin-check* t)
+(defparameter *env* (or (uiop:getenvp "APP_ENV") "development"))
+(defparameter *name* (first (last (pathname-directory (uiop:getcwd)))))
+(defparameter *address* (determine-server-address))
+(defparameter *port* (or (and (uiop:getenvp "APP_PORT")
+                              (parse-integer (uiop:getenvp "APP_PORT")))
+                         5000))
 
 ;;; unbound -> user is forced to set theses in env-config file
-(defvar *secret-key-base* (or (uiop:getenv "SECRET_KEY_BASE")
-                              (error "Secret Key Base is missing! ~%Please set SECRET_KEY_BASE either as environment variable or in .env file.")))
-
-;;; helpers
-(defun load-config (&optional env)
-  (uiop:if-let ((config (probe-file (make-pathname :defaults *config-path*
-                                                   :name (or env *env*)
-                                                   :type "lisp"))))
-    (progn
-      (format t "~&Loading config: ~A~%" config)
-      (load config))))
+(defparameter *secret-key-base* (or (uiop:getenv "SECRET_KEY_BASE")
+                                    (error "Secret Key Base is missing! ~%Please set SECRET_KEY_BASE either as environment variable or in .env file.")))
 
 (defun secure-random-hex (&optional (n 16))
   (crypto:byte-array-to-hex-string

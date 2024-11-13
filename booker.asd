@@ -40,9 +40,7 @@
   :long-description
   #.(uiop:read-file-string
      (uiop:subpathname *load-pathname* "README.md"))
-  :in-order-to ((test-op (test-op "booker/test")))
-  :perform (load-op :after (o c)
-                    (uiop:symbol-call :booker :load-config)))
+  :in-order-to ((test-op (test-op "booker/test"))))
 
 (defsystem "booker/test"
   :author "Sebastian Christ <rudolfo.christ@pm.me>"

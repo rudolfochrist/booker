@@ -15,7 +15,6 @@
             reset)
     (setf *app* nil
           *env* (or (uiop:getenvp "APP_ENV") *env*))
-    (load-config)
     (setf hunchentoot:*methods-for-post-parameters* (list :post :put :patch :delete)
           hunchentoot:*rewrite-for-session-urls* nil  ; use only cookies for sessions.
           hunchentoot:*session-secret* *secret-key-base*
@@ -24,7 +23,7 @@
                                    'development-acceptor
                                    'hunchentoot:easy-acceptor)
                                :name (setf *name* (or name *name*))
-                               :address (root (setf *address* (or address *address*)))
+                               :address (setf *address* (or address *address*))
                                :port (setf *port* (or port *port*))
                                :document-root (root "public/")
                                :error-template-directory (when (string/= *env* "development")
