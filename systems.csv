@@ -1,5 +1,5 @@
 alexandria, ghcr.io/ocicl/iterate@sha256:398e3747b164f42e1a19fccf974bdf9c2a7938660f9bead1bb052124d58b5476, iterate-20240503-26cf129/ext/alexandria/alexandria.asd
-hunchentoot, ghcr.io/ocicl/hunchentoot@sha256:1dbccc1f9770d3d8917ef87d71720b4ec7f2d6bebf24a3072afca478b00b4427, hunchentoot-1.3.1/hunchentoot.asd
+hunchentoot, ghcr.io/lispmirror/hunchentoot@sha256:3efbb0735dceb6f9b579e454c3eac9a6cbd4471bc3c8356c63b6047eeb48e898, Hunchentoot-20241122-0fa17695d16fbc65d3f0b51645358fd39911a22e/hunchentoot.asd
 chunga, ghcr.io/ocicl/chunga@sha256:a59ccb3d13992748c676b8e3263256850ee626f98ac59adece5a142967b6f558, chunga-20240919-5cd13fe/chunga.asd
 trivial-gray-streams, ghcr.io/ocicl/trivial-gray-streams@sha256:d0cc9fb73876100ee60647524f98b5b22566fa1c3a985d79548b0d2b228f8b51, trivial-gray-streams-20240503-a7ead68/trivial-gray-streams.asd
 trivial-gray-streams-test, ghcr.io/ocicl/trivial-gray-streams@sha256:d0cc9fb73876100ee60647524f98b5b22566fa1c3a985d79548b0d2b228f8b51, trivial-gray-streams-20240503-a7ead68/trivial-gray-streams-test.asd
@@ -47,7 +47,7 @@ cl-postgres, ghcr.io/ocicl/postmodern@sha256:1575078171b7d86645e492318b5917a5783
 ironclad, ghcr.io/ocicl/ironclad@sha256:3117e5a26a3e94924074c3548c235a2b733609ed61a2731880ac9e31df55428b, ironclad-20240503-6da010f/ironclad.asd
 ironclad-text, ghcr.io/ocicl/ironclad@sha256:3117e5a26a3e94924074c3548c235a2b733609ed61a2731880ac9e31df55428b, ironclad-20240503-6da010f/ironclad-text.asd
 uax-15, ghcr.io/ocicl/uax-15@sha256:98286ee7b08a849dd2bb8992ab7c4cda7f429f25e8815939297979a49e4b3dad, uax-15-0.1.3/uax-15.asd
-closer-mop, ghcr.io/ocicl/closer-mop@sha256:501e7e31934426c504f59166ef9242274bbc64a5c214c8d8d0f296f58cc0151c, closer-mop-20240930-8a71777/closer-mop.asd
+closer-mop, ghcr.io/ocicl/closer-mop@sha256:97c44c494cf5992daed456f68d12df6752ac451c389b3ae660ad8e3b20d8a071, closer-mop-20241101-875f4b7/closer-mop.asd
 myway, ghcr.io/ocicl/myway@sha256:46934aac290e9d659a90a4730973d74774b3fcd687a896cf771a27c68a0b4718, myway-20240503-1350b45/myway.asd
 myway-test, ghcr.io/ocicl/myway@sha256:46934aac290e9d659a90a4730973d74774b3fcd687a896cf771a27c68a0b4718, myway-20240503-1350b45/myway-test.asd
 quri, ghcr.io/ocicl/quri@sha256:e2559f91600e4895e115b42dde88fcaac3677f051335d73431888dcf7af99f95, quri-0.7.0/quri.asd
@@ -88,16 +88,16 @@ fast-io-test, ghcr.io/ocicl/fast-io@sha256:7ba35a0eddf00b3c25656b3c5a93e95460f6c
 static-vectors, ghcr.io/ocicl/static-vectors@sha256:53e11e5689c3dbea6a3017760b55f052588003d774913539930ddc4330a69970, static-vectors-20240624-3d9d89b/static-vectors.asd
 cl-cookie, ghcr.io/ocicl/cl-cookie@sha256:85cd8aa7f1379d041fae9530609cd68d5214fb978bc87faa7fd9ad5ad7e08a83, cl-cookie-20240703-6bcb74a/cl-cookie.asd
 cl-cookie-test, ghcr.io/ocicl/cl-cookie@sha256:85cd8aa7f1379d041fae9530609cd68d5214fb978bc87faa7fd9ad5ad7e08a83, cl-cookie-20240703-6bcb74a/cl-cookie-test.asd
-local-time, ghcr.io/ocicl/local-time@sha256:f6b11fc15cf92adb87a847d3af918ada947c2648660e74133db9183e7da0db70, local-time-20240817-5a09552/local-time.asd
-cl-postgres_plus_local-time, ghcr.io/ocicl/local-time@sha256:f6b11fc15cf92adb87a847d3af918ada947c2648660e74133db9183e7da0db70, local-time-20240817-5a09552/cl-postgres+local-time.asd
+local-time, ghcr.io/ocicl/local-time@sha256:ed7c32afa2aadc798f4183017b6bb4ceea9e287be83da8f24b212442207ba532, local-time-20241119-bcfaeb2/local-time.asd
+cl-postgres_plus_local-time, ghcr.io/ocicl/local-time@sha256:ed7c32afa2aadc798f4183017b6bb4ceea9e287be83da8f24b212442207ba532, local-time-20241119-bcfaeb2/cl-postgres+local-time.asd
 trivial-mimes, ghcr.io/ocicl/trivial-mimes@sha256:b33ae6d62bcd666d046e4ae1625b8e8b46a548fe2c4f18b4899ce1ecf581c17b, trivial-mimes-20240503-1a80193/trivial-mimes.asd
 chipz, ghcr.io/ocicl/chipz@sha256:fae0fae0c93199ba57c92d9102245a55c8a2c12af4442e0b141d5670bef4f2f0, chipz-20240503-6f80368/chipz.asd
-spinneret, ghcr.io/ocicl/spinneret@sha256:02af28d5d7a467fe13766a21c389156aa111d79c0a739e65195683782288f588, spinneret-20240616-4b51400/spinneret.asd
+spinneret, ghcr.io/ocicl/spinneret@sha256:f7d99e5d6104c11763d33a6876fc2e313d58007c1d8d2b05bec25fee0671a5b2, spinneret-20241105-2c70f31/spinneret.asd
 parenscript.tests, ghcr.io/ocicl/parenscript@sha256:b4d667abac5092a849871d58d504412e6e1e401fab3fef8f8ac2542a6dfcaa54, parenscript-20240503-1fd720b/parenscript.tests.asd
 parenscript, ghcr.io/ocicl/parenscript@sha256:b4d667abac5092a849871d58d504412e6e1e401fab3fef8f8ac2542a6dfcaa54, parenscript-20240503-1fd720b/parenscript.asd
 anaphora, ghcr.io/ocicl/anaphora@sha256:55f1c61b7826c5451a60b4b4522e35e770504bbfa2036d8becbf21f6d654925a, anaphora-20240503-bcf0f74/anaphora.asd
 named-readtables, ghcr.io/ocicl/named-readtables@sha256:c13ae35d957cf55f8c877762a24537daee5e8322d9968b14f8c86e8cfc1b2df3, named-readtables-20230809-2c05652/named-readtables.asd
-serapeum, ghcr.io/ocicl/serapeum@sha256:47d38fcc6f92bb2f47e34a97f1fed2353c42d6013c4df39ea121e87a7aa3770d, serapeum-20240928-714a225/serapeum.asd
+serapeum, ghcr.io/ocicl/serapeum@sha256:37d0dcd996aa65a4f8668d7932e61ef695dc8857cb184f10b86750da164b2981, serapeum-20241129-ebd9c5c/serapeum.asd
 trivia.trivial, ghcr.io/ocicl/trivia@sha256:51db74757bc31ceaf3a643914a8ffa87825799097dea4912650e6ac62bed5209, trivia-20240904-4383dd8/trivia.trivial.asd
 trivia.test, ghcr.io/ocicl/trivia@sha256:51db74757bc31ceaf3a643914a8ffa87825799097dea4912650e6ac62bed5209, trivia-20240904-4383dd8/trivia.test.asd
 trivia.quasiquote, ghcr.io/ocicl/trivia@sha256:51db74757bc31ceaf3a643914a8ffa87825799097dea4912650e6ac62bed5209, trivia-20240904-4383dd8/trivia.quasiquote.asd
@@ -127,3 +127,8 @@ trivial-file-size, ghcr.io/ocicl/trivial-file-size@sha256:24e26c790095d887cb3d0e
 trivial-macroexpand-all, ghcr.io/ocicl/trivial-macroexpand-all@sha256:d89343eaceeff9a16425b8a44c6036eb33bb93ea63794a448277729800eb5a66, trivial-macroexpand-all-20240503-933270a/trivial-macroexpand-all.asd
 in-nomine, ghcr.io/ocicl/in-nomine@sha256:7971408141c4281e161e09f99e67b5fd786f5718de0df2e68a3e215dc0c59ef0, in-nomine-20240503-03524ba/in-nomine.asd
 trivial-arguments, ghcr.io/ocicl/trivial-arguments@sha256:9441b27b3b399adb105643771e06b034f06981ed69809d6d29474737445cbd97, trivial-arguments-20240506-398829b/trivial-arguments.asd
+fiveam-matchers, ghcr.io/ocicl/fiveam-matchers@sha256:777aece685493268c145b1609269e2b7ef180cd090fe5e2204919af031f8b7e4, fiveam-matchers-20241012-900a23d/fiveam-matchers.asd
+str.test, ghcr.io/ocicl/str@sha256:3771c466d33a923d4fd1b1aa71f7a60d0029405e7fb3bafae1a3f19b7ac9b121, cl-str-20240708-1bcf26d/str.test.asd
+str, ghcr.io/ocicl/str@sha256:3771c466d33a923d4fd1b1aa71f7a60d0029405e7fb3bafae1a3f19b7ac9b121, cl-str-20240708-1bcf26d/str.asd
+cl-unicode, ghcr.io/ocicl/cl-unicode@sha256:d98f12c1271fb3c1812a27d64dfbe95b0bc5bcfd545b71b8101874e61270b120, cl-unicode-20240503-07e7ff5/cl-unicode.asd
+cl-change-case, ghcr.io/ocicl/cl-change-case@sha256:63b6a033f762d6dc5d365ce49f2a2c691677f2ec1375ebe4226d13b19a29dc7c, cl-change-case-0.2.1/cl-change-case.asd
