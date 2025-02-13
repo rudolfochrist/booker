@@ -7,7 +7,7 @@ ASDSRCS = $(wildcard *.asd)
 
 all: $(PACKAGE_NAME)
 
-$(PACKAGE_NAME): $(ASDSRCS) $(LISPSRCS) version config.lisp .env
+$(PACKAGE_NAME): $(ASDSRCS) $(LISPSRCS) version config.lisp
 	-rm -f $(PACKAGE_NAME)
 	$(CL) $(CLFLAGS) \
 	--load config.lisp \
@@ -15,7 +15,7 @@ $(PACKAGE_NAME): $(ASDSRCS) $(LISPSRCS) version config.lisp .env
 	--eval '(gc :full t)' \
 	--eval '(asdf:make "$(PACKAGE_NAME)/executable")'
 
-$(PACKAGE_NAME).image: $(ASDSRCS) $(LISPSRCS) version config.lisp .env
+$(PACKAGE_NAME).image: $(ASDSRCS) $(LISPSRCS) version config.lisp
 	-rm -f $(PACKAGE_NAME).image
 	$(CL) $(CLFLAGS) \
 	--load config.lisp \

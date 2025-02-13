@@ -17,6 +17,5 @@
    #:generate-secret
    #:secure-random-hex
    #:application-running-p
-   #:load-config
    #:*db*))
 

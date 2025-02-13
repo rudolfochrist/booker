@@ -5,15 +5,16 @@
 (in-package #:booker)
 
 (defparameter *db* (jasql.postgres:make-handle
-                    :database (or (uiop:getenvp "DATABASE_NAME")
-                                  (format nil "booker_~A" *env*))
-                    :username (or (uiop:getenvp "DATABASE_USERNAME")
-                                  "booker")
-                    :host (or (uiop:getenvp "DATABASE_HOST")
-                              :unix)
-                    :port (or (and (uiop:getenvp "DATABASE_PORT")
-                                   (parse-integer (uiop:getenvp "DATABASE_PORT")))
-                              5432)))
+                    :database (env "PG_DATABASE_NAME"
+                                   (format nil "booker_~A" *env*))
+                    :username (env "PG_USER" "booker")
+                    :host (env "PG_HOST" :unix)
+                    :port (or (and (env "PG_PORT")
+                                   (parse-integer (env "PG_PORT")))
+                              5432)
+                    :use-ssl (if (env "PG_SSL")
+                                 :try
+                                 :no)))
 
 (defpackage #:booker/db
   (:use :cl))
