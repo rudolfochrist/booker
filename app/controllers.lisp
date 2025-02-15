@@ -96,6 +96,12 @@
       (ht:log-message* :error "No URL send")
       (flash "danger" "Please provide a URL!")
       (setf (ht:return-code*) ht:+http-unprocessable-content+)
+      (bookmarks-index))
+    (dexador.error:http-request-forbidden (condition)
+      (declare (ignore condition))
+      (ht:log-message* :error "403 Forbidden: ~A" (params :url))
+      (flash "danger" "Cannot save URL - Server responded: 403 Access Forbidden.")
+      (setf (ht:return-code*) ht:+http-unprocessable-content+)
       (bookmarks-index))))
 
 (ht:define-easy-handler (bookmarks-show :uri (match :get "/bookmarks/:id/?"))
