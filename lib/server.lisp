@@ -10,23 +10,24 @@
 
 (defvar *app* nil)
 
-(defun initialize-application (&key name address port reset)
+(defun initialize-application (&key reset name address port)
   (when (or (null *app*)
             reset)
+    (reload-config)
+    (initialize-database)
     (setf *app* nil
-          *env* (or (uiop:getenvp "APP_ENV") *env*))
-    (setf hunchentoot:*methods-for-post-parameters* (list :post :put :patch :delete)
+          hunchentoot:*methods-for-post-parameters* (list :post :put :patch :delete)
           hunchentoot:*rewrite-for-session-urls* nil  ; use only cookies for sessions.
-          hunchentoot:*session-secret* *secret-key-base*
+          hunchentoot:*session-secret* (secret-key-base *config*)
           hunchentoot:*show-lisp-errors-p* t)
-    (setf *app* (make-instance (if (string= *env* "development")
+    (setf *app* (make-instance (if (string= (env *config*) "development")
                                    'development-acceptor
                                    'hunchentoot:easy-acceptor)
-                               :name (setf *name* (or name *name*))
-                               :address (setf *address* (or address *address*))
-                               :port (setf *port* (or port *port*))
+                               :name (maybe-update-config (name *config*) name)
+                               :address (maybe-update-config (address *config*) address)
+                               :port (maybe-update-config (port *config*) port)
                                :document-root (root "public/")
-                               :error-template-directory (when (string/= *env* "development")
+                               :error-template-directory (when (string/= (env *config*) "development")
                                                            (root "public/"))))))
 
 

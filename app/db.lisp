@@ -4,17 +4,21 @@
 
 (in-package #:booker)
 
-(defparameter *db* (jasql.postgres:make-handle
-                    :database (env "PG_DATABASE_NAME"
-                                   (format nil "booker_~A" *env*))
-                    :username (env "PG_USER" "booker")
-                    :host (env "PG_HOST" :unix)
-                    :port (or (and (env "PG_PORT")
-                                   (parse-integer (env "PG_PORT")))
-                              5432)
-                    :use-ssl (if (env "PG_SSL")
-                                 :try
-                                 :no)))
+(defvar *db* nil)
+
+(defgeneric initialize-database ()
+  (:documentation "Application specific database initialization."))
+
+(defmethod initialize-database :around ()
+  (setf *db* (call-next-method)))
+
+(defmethod initialize-database ()
+  (jasql.postgres:make-handle
+   :database (database-name *config*)
+   :username (database-user *config*)
+   :host (database-host *config*)
+   :port (database-port *config*)
+   :use-ssl (pg-use-ssl *config*)))
 
 (defpackage #:booker/db
   (:use :cl))

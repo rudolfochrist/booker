@@ -1,7 +1,5 @@
-echo '{{ Bold (Foreground "#00fff" "Loading development environment") }}
-' | gum format -t template
+echo -e "${cl_fg_green}${cl_bold}Loading development environment${cl_stop}"
 
-export SECRET_KEY_BASE="$(cred_helper booker/development secret_key_base)"
-export PG_DATABASE_NAME=booker_development
-export PG_USER=booker
-export DATABASE_URL="postgres://${PG_USER}@:5432/${PG_DATABASE_NAME}?sslmode=false"
+export SECRET_KEY_BASE="$(bw get password 982165ff-2eab-4e19-a66f-b2850138cf12)"
+export DATABASE_NAME='booker_development'
+export DATABASE_USER='booker'

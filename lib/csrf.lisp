@@ -114,7 +114,7 @@ you can disable origin checking with the
   (format nil "~A://~A" (scheme request) (host-with-port request)))
 
 (defun valid-request-origin-p (request)
-  (if *forgery-protection-origin-check*
+  (if (protect-against-forgery *config*)
       (if (or (null (request-origin request))
               (string= (request-origin request) "null"))
           (error +null-origin-message+)
@@ -155,7 +155,7 @@ you can disable origin checking with the
   "Security warning: an embedded <script> tag on another site requested protected JavaScript. If you know what you're doing, go ahead and disable forgery protection on this action to permit cross-origin JavaScript embedding.")
 
 (defmethod hunchentoot:acceptor-dispatch-request :before ((acceptor hunchentoot:easy-acceptor) request)
-  (when *protect-against-forgery*
+  (when (protect-against-forgery *config*)
     (let ((session (hunchentoot:start-session)))
       (unless (verified-request-p request session)
         (hunchentoot:log-message* :security-warning "Can't verify CSRF token authenticity")
@@ -163,7 +163,7 @@ you can disable origin checking with the
         (hunchentoot:abort-request-handler)))))
 
 (defmethod hunchentoot:acceptor-dispatch-request :after ((acceptor hunchentoot:easy-acceptor) request)
-  (when (and *protect-against-forgery*
+  (when (and (protect-against-forgery *config*)
              (eq (hunchentoot:request-method*) :get)
              (ppcre:scan "\\A(?:text|application)/javascript" (hunchentoot:content-type*))
              (not (xhrp*)))

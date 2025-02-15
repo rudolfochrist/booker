@@ -8,7 +8,7 @@
 (export '+http-unprocessable-content+)
 
 (defmethod session-cookie-name ((acceptor easy-acceptor))
-  (format nil "_~A_session" booker::*name*))
+  (format nil "_~A_session" (booker::name booker::*config*)))
 
 (defmethod session-created ((acceptor easy-acceptor) session)
   ;; Set SameSite=Lax for session cookies
