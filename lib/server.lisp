@@ -14,7 +14,6 @@
   (when (or (null *app*)
             reset)
     (reload-config)
-    (initialize-database)
     (setf *app* nil
           hunchentoot:*methods-for-post-parameters* (list :post :put :patch :delete)
           hunchentoot:*rewrite-for-session-urls* nil  ; use only cookies for sessions.

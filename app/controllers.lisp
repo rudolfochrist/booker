@@ -51,8 +51,8 @@
 (defun apply-search-filter (search-term)
   (if (and (not (null search-term))
            (not (zerop (length search-term))))
-      (booker/db:search-bookmarks *db* :q search-term)
-      (booker/db:all-bookmarks *db*)))
+      (rundb (search-bookmarks search-term))
+      (rundb (all-bookmarks))))
 
 (ht:define-easy-handler (bookmarks-index :uri (match :get "/bookmarks/?"))
     ()
@@ -83,7 +83,7 @@
   (handler-case
       (multiple-value-bind (title body)
           (retrieve-bookmark-content (params :url))
-        (booker/db:create-bookmark *db* :title title :url (params :url) :body body)
+        (rundb (create-bookmark title (params :url) body))
         (flash "info" "Bookmark created!")
         (redirect "/bookmarks"))
     (http-url-found (condition)
@@ -106,15 +106,15 @@
 
 (ht:define-easy-handler (bookmarks-show :uri (match :get "/bookmarks/:id/?"))
     ()
-  (uiop:if-let ((bookmark (booker/db:find-bookmark-with-body *db* :id (params :id))))
+  (uiop:if-let ((bookmark (rundb (find-bookmark-with-body (params :id)))))
     (render 'view/bookmarks-show :bookmark bookmark)
     (format nil "~A" (setf (ht:return-code*) ht:+http-not-found+))))
 
 
 (ht:define-easy-handler (bookmarks-destory :uri (match :delete "/bookmarks/:id/?"))
     ()
-  (when (booker/db:find-bookmark *db* :id (params :id))
-    (booker/db:delete-bookmark *db* :id (params :id))
+  (when (rundb (find-bookmark (params :id)))
+    (rundb (delete-bookmark (params :id)))
     (flash "info" "Bookmark deleted!")
     (redirect "/bookmarks")))
 

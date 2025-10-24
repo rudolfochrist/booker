@@ -4,8 +4,9 @@
 
 (defpackage #:booker
   (:use :cl)
-  (:import-from #:JASQL.POSTGRES
-                #:POSTGRES-HANDLE)
+  (:import-from :postmodern
+                #:defprepared
+                #:defprepared-with-names)
   (:local-nicknames
    (#:ht :hunchentoot)
    (#:jzon :com.inuoe.jzon))

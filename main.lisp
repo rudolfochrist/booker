@@ -18,13 +18,8 @@
   (declare (ignore args))
   (sb-sys:enable-interrupt sb-unix:sigint #'handle-interrupt)
   (sb-sys:enable-interrupt sb-unix:sigterm #'handle-interrupt)
-  (booker:start-application t)
-  #+enable-executable
-  (dolist (th (sb-thread:list-all-threads))
-    (when (uiop:string-prefix-p "hunchentoot-listener" (sb-thread:thread-name th))
-      (sb-thread:join-thread th))))
+  (booker:start-application t))
 
-#+enable-image
 (push #'main sb-ext:*init-hooks*)
 
 

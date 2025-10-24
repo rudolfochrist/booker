@@ -1,5 +1,0 @@
-echo -e "${cl_fg_green}${cl_bold}Loading development environment${cl_stop}"
-
-export SECRET_KEY_BASE="$(bw get password 982165ff-2eab-4e19-a66f-b2850138cf12)"
-export DATABASE_NAME='booker_development'
-export DATABASE_USER='booker'
