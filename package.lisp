@@ -18,5 +18,5 @@
    #:generate-secret
    #:secure-random-hex
    #:application-running-p
-   #:*db*))
+   #:reload-config))
 

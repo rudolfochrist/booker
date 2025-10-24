@@ -9,6 +9,7 @@
     ,(database-user *config*)
     ""
     ,(database-host *config*)
+    :port ,(database-port *config*)
     :pooled-p t))
 
 (defun connect-database ()

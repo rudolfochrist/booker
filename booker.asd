@@ -21,7 +21,8 @@
                "com.inuoe.jzon"
                "plump"
                "dexador"
-               "spinneret")
+               "spinneret"
+               "sefil")
   :components ((:file "package")
                (:module "lib"
                 :components ((:file "config")
