@@ -7,8 +7,8 @@
 #+sbcl (require 'sb-aclrepl)
 
 (asdf:initialize-source-registry
- '(:source-registry
-   (:tree (:here))
+ `(:source-registry
+   (:tree ,(uiop:getcwd))
    :ignore-inherited-configuration))
 
 (declaim (optimize (speed 3) (safety 1) (debug 1) (compilation-speed 3)))
