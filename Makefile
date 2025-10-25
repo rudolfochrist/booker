@@ -8,7 +8,7 @@ CLFLAGS=--non-interactive --no-userinit
 
 all: booker.image
 
-booker.image:
+booker.image: $(LISPSRCS) $(ASDSRCS) version
 	$(LISP) $(CLFLAGS) --load build.lisp
 clean:
 	-rm -f **/*.fasl
