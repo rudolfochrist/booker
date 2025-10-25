@@ -87,6 +87,7 @@
   (let ((config-file (make-pathname :defaults (root "config/")
                                     :name (env *config*)
                                     :type "lisp")))
+    (ht:log-message* :debug "Loading config: ~A" config-file)
     (load config-file :if-does-not-exist nil)))
 
 (defmacro maybe-update-config (place new-value)
