@@ -1,5 +1,0 @@
-syntax: glob
-
-scratch.lisp
-*.png
-docs/build

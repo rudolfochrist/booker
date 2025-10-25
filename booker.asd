@@ -15,14 +15,12 @@
                "alexandria"
                "hunchentoot"
                "postmodern"
-               "ironclad"
                "myway"
                "hunchentoot-errors"
                "com.inuoe.jzon"
                "plump"
                "dexador"
-               "spinneret"
-               "sefil")
+               "spinneret")
   :components ((:file "package")
                (:module "lib"
                 :components ((:file "config")
