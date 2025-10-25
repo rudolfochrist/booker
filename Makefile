@@ -1,7 +1,7 @@
 
 
-LISPSRCS:="$(shell find . -name '*.lisp')"
-ASDSRCS:="$(wildcard *.asd)"
+LISPSRCS:=$(shell find . -name "*.lisp")
+ASDSRCS:=$(wildcard *.asd)
 
 LISP=sbcl
 CLFLAGS=--non-interactive --no-userinit
