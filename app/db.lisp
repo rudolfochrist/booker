@@ -12,12 +12,6 @@
     :port ,(database-port *config*)
     :pooled-p t))
 
-(defun connect-database ()
-  (pomo:connect (database-name *config*)
-                (database-user *config*)
-                ""
-                (database-host *config*)
-                :pooled-p t))
 
 (defprepared all-bookmarks
     (:order-by
@@ -72,5 +66,5 @@ ORDER by rank DESC"
      id))
 
 (defmacro rundb (&body body)
-  `(pomo:with-connection ',(connection)
+  `(pomo:with-connection (connection)
      ,@body))
