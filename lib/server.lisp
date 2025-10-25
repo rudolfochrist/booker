@@ -27,7 +27,9 @@
                                :port (maybe-update-config (port *config*) port)
                                :document-root (root "public/")
                                :error-template-directory (when (string/= (env *config*) "development")
-                                                           (root "public/"))))))
+                                                           (root "public/"))
+                               :access-log-destination (access-log-destination *config*)
+                               :message-log-destination (message-log-destination *config*)))))
 
 
 (defun start-application (&optional initialize)

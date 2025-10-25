@@ -66,7 +66,13 @@
                   :accessor database-port)
    (pg-use-ssl :initform :try
                :initarg :pg-use-ssl
-               :accessor pg-use-ssl))
+               :accessor pg-use-ssl)
+   (access-log-destination :initform nil
+                           :initarg :access-log-destination
+                           :accessor access-log-destination)
+   (message-log-destination :initform nil
+                            :initarg :message-log-destination
+                            :accessor message-log-destination))
   (:documentation "Application configurations"))
 
 

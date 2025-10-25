@@ -1,14 +1,6 @@
 .DS_Store
 *.fasl
 *.key
-!/config/.keep
-/config/*
-/db/data.db
 /booker.image
-/systems/
 .env
 *.image
-/config.status
-/config.lisp
-/config.mk
-/booker
