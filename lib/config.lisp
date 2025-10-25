@@ -30,7 +30,7 @@
                                     :initarg :forgery-protection-origin-check
                                     :accessor protect-against-forgery
                                     :documentation "Check origin for CSRF.")
-   (env :initform "development"
+   (env :initform (env-lookup "APP_ENV" "development")
         :initarg :env
         :accessor env
         :documentation "The current environment this app is running.")
