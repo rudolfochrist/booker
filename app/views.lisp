@@ -1,3 +1,5 @@
+;;; SPDX-License-Identifier: MPL-2.0
+;;;
 ;;; This Source Code Form is subject to the terms of the Mozilla Public
 ;;; License, v. 2.0. If a copy of the MPL was not distributed with this
 ;;; file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -10,7 +12,8 @@
             (:head
              (:title ,title)
              (:link :rel "stylesheet" :href "/bootstrap.min.css")
-             (:link :rel "stylesheet" :href "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css")
+             (:link :rel "stylesheet"
+                    :href "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css")
              (:raw (csrf-meta-tags)))
             (:body
              (:div :class "container mt-5"
@@ -46,7 +49,8 @@
                      (:li :class "list-group-item list-group-item-action d-flex justify-content-between"
                           (:a :class "link-dark" :href (getf bookmark :url) (getf bookmark :title))
                           (:div :class "d-flex column-gap-2"
-                                (:form :method "POST" :action (format nil "/bookmarks/~A" (getf bookmark :id)) :onsubmit "return confirm('Are you sure?')"
+                                (:form :method "POST" :action (format nil "/bookmarks/~A" (getf bookmark :id))
+                                       :onsubmit "return confirm('Are you sure?')"
                                        (:raw (hidden-authenticity-token))
                                        (:input :name "_method" :type "hidden" :value "delete")
                                        (:input :type "submit" :value "Delete" :class "btn btn-link link-danger"))

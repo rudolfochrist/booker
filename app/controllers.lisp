@@ -1,3 +1,5 @@
+;;; SPDX-License-Identifier: MPL-2.0
+;;;
 ;;; This Source Code Form is subject to the terms of the Mozilla Public
 ;;; License, v. 2.0. If a copy of the MPL was not distributed with this
 ;;; file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -13,7 +15,7 @@
   (let* ((session (ht:start-session))
          (flash (ht:session-value :flash session)))
     (setf (ht:session-value :flash session)
-          (cons (cons type message) flash))))
+          (acons type message flash))))
 
 ;;; delete flash after it is used.
 (defmethod ht:handle-request :after (acceptor request)
@@ -49,7 +51,7 @@
   (bookmarks-index))
 
 (defun apply-search-filter (search-term)
-  (if (and (not (null search-term))
+  (if (and search-term
            (not (zerop (length search-term))))
       (rundb (search-bookmarks search-term))
       (rundb (all-bookmarks))))
@@ -76,12 +78,9 @@
            (main (or (first (plump:get-elements-by-tag-name dom "main"))
                      (first (plump:get-elements-by-tag-name dom "body"))
                      (first (plump:get-elements-by-tag-name dom "html")))))
-      (dolist (script (plump:get-elements-by-tag-name main "script"))
-        (plump:remove-child script))
-      (dolist (style (plump:get-elements-by-tag-name main "style"))
-        (plump:remove-child style))
-      (dolist (iframe (plump:get-elements-by-tag-name main "iframe"))
-        (plump:remove-child iframe))
+      (mapc #'plump:remove-child (plump:get-elements-by-tag-name main "script"))
+      (mapc #'plump:remove-child (plump:get-elements-by-tag-name main "style"))
+      (mapc #'plump:remove-child (plump:get-elements-by-tag-name main "iframe"))
       (values (extract-title dom)
               (plump:render-text main)))))
 

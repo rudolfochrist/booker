@@ -1,3 +1,5 @@
+;;; SPDX-License-Identifier: MPL-2.0
+;;;
 ;;; This Source Code Form is subject to the terms of the Mozilla Public
 ;;; License, v. 2.0. If a copy of the MPL was not distributed with this
 ;;; file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -13,7 +15,7 @@
 (defmethod session-created ((acceptor easy-acceptor) session)
   ;; Set SameSite=Lax for session cookies
   (declare (ignore session))
-  (let ((cookie (cdr (assoc (session-cookie-name acceptor) (cookies-out*) :test #'string=))))
+  (let ((cookie (rest (assoc (session-cookie-name acceptor) (cookies-out*) :test #'string=))))
     (setf (cookie-same-site cookie) "Lax")))
 
 (in-package #:chunga)

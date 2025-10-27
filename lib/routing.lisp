@@ -1,3 +1,5 @@
+;;; SPDX-License-Identifier: MPL-2.0
+;;;
 ;;; This Source Code Form is subject to the terms of the Mozilla Public
 ;;; License, v. 2.0. If a copy of the MPL was not distributed with this
 ;;; file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -7,14 +9,14 @@
 (defun maybe-string-coerce (object)
   (typecase object
     (symbol (string-downcase (string object)))
-    (t object)))
+    (otherwise object)))
 
 (defun string-symbol-equal (object1 object2)
   (string= (maybe-string-coerce object1)
            (maybe-string-coerce object2)))
 
 (defun keywordize (object)
-  (typecase object
+  (etypecase object
     (keyword object)
     (string (alexandria:make-keyword (string-upcase object)))))
 
@@ -42,7 +44,7 @@
           t)))))
 
 (defun params (name &optional (request hunchentoot:*request*))
-  (cdr (assoc name (hunchentoot::aux-data request) :test #'string-equal)))
+  (rest (assoc name (hunchentoot::aux-data request) :test #'string-equal)))
 
 (defun status (code)
   (setf (hunchentoot:return-code*) code)

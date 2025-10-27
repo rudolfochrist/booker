@@ -1,3 +1,5 @@
+;;; SPDX-License-Identifier: MPL-2.0
+;;;
 ;;; This Source Code Form is subject to the terms of the Mozilla Public
 ;;; License, v. 2.0. If a copy of the MPL was not distributed with this
 ;;; file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -104,9 +106,9 @@ you can disable origin checking with the
              (list (hunchentoot:acceptor-address acceptor)
                    (hunchentoot:acceptor-port acceptor)))))
     (unless port
-      (setf port (cdr (assoc (scheme request) +default-ports+ :test #'string=))))
+      (setf port (rest (assoc (scheme request) +default-ports+ :test #'string=))))
     (if (= port
-           (cdr (assoc (scheme request) +default-ports+ :test #'string=)))
+           (rest (assoc (scheme request) +default-ports+ :test #'string=)))
         host
         authority)))
 
@@ -123,8 +125,8 @@ you can disable origin checking with the
       t))
 
 (defun valid-authenticity-token-p (session encoded-masked-token)
-  (when (and (not (null encoded-masked-token))
-             (typep encoded-masked-token 'string)
+  (when (and encoded-masked-token
+             (stringp encoded-masked-token)
              (not (zerop (length encoded-masked-token))))
     (let ((masked-token (decode-csrf-token encoded-masked-token)))
       (crypto:constant-time-equal (unmask-token masked-token)
@@ -137,8 +139,8 @@ you can disable origin checking with the
               (hunchentoot:header-in "X-CSRF-TOKEN" request))))
 
 (defun verified-request-p (request session)
-  (or (eq (hunchentoot:request-method request) :get)
-      (eq (hunchentoot:request-method request) :head)
+  (or (eql (hunchentoot:request-method request) :get)
+      (eql (hunchentoot:request-method request) :head)
       (and (valid-request-origin-p request)
            (any-authenticity-token-valid-p request session))))
 
@@ -152,7 +154,9 @@ you can disable origin checking with the
 
 
 (defvar *embedded-sript-warning-message*
-  "Security warning: an embedded <script> tag on another site requested protected JavaScript. If you know what you're doing, go ahead and disable forgery protection on this action to permit cross-origin JavaScript embedding.")
+  "Security warning: an embedded <script> tag on another site requested protected JavaScript.~
+If you know what you're doing, go ahead and disable forgery protection on this action to permit~
+cross-origin JavaScript embedding.")
 
 (defmethod hunchentoot:acceptor-dispatch-request :before ((acceptor hunchentoot:easy-acceptor) request)
   (when (protect-against-forgery *config*)
@@ -164,7 +168,7 @@ you can disable origin checking with the
 
 (defmethod hunchentoot:acceptor-dispatch-request :after ((acceptor hunchentoot:easy-acceptor) request)
   (when (and (protect-against-forgery *config*)
-             (eq (hunchentoot:request-method*) :get)
+             (eql (hunchentoot:request-method*) :get)
              (ppcre:scan "\\A(?:text|application)/javascript" (hunchentoot:content-type*))
              (not (xhrp*)))
     (hunchentoot:log-message* :security-warning *embedded-sript-warning-message*)
